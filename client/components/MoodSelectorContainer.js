@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import MoodSelector from './MoodSelector';
-import { setMood } from '../reducer/mood'; //<---TODO: add actioncreator to a reducer
+import { getMusic } from '../reducer/music';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setMood (selectedMood) {
-      dispatch(setMood(selectedMood));
+    newMusic: function (selectedMood) {
+      const action = getMusic(selectedMood)
+      dispatch(action);
     }
   };
 };
@@ -17,7 +18,6 @@ class MoodSelectorContainer extends Component {
     this.state = {
       moodValue: ''
     };
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,25 +27,32 @@ class MoodSelectorContainer extends Component {
     this.setState({
       moodValue: value
     });
+    console.log(this.state.moodValue)
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.setMood(this.state.moodValue);
+    console.log('anything', this.state.moodValue);
+    // this.props.setMood(this.state.moodValue);
   }
 
-  render () {
+  render (props) {
+    console.log('MoodSelectorContainer')
     return (
       <MoodSelector
-      handleChange={this.handleChange}
-      handleSubmit={this.handleSubmit}
-      moodValue={this.moodValue}
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+        moodValue={this.moodValue}
       />
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {}
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(MoodSelectorContainer);

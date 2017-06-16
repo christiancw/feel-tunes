@@ -6,6 +6,9 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import store from './store';
 import { Main, Login, Signup, UserHome } from './components';
+import MoodSelectorContainer from './components/MoodSelectorContainer';
+// import {Main} from './components';
+// import MoodSelector from './components';
 import { me } from './reducer/user';
 
 const whoAmI = store.dispatch(me());
@@ -19,7 +22,6 @@ const requireLogin = (nextRouterState, replace, next) =>
     })
     .catch(err => console.log(err));
 
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
@@ -27,6 +29,7 @@ ReactDOM.render(
         <IndexRoute component={Login} />
         <Route path="login" component={Login} />
         <Route path="signup" component={Signup} />
+        <Route path="mood" component={MoodSelectorContainer} />
         <Route onEnter={requireLogin}>
           <Route path="home" component={UserHome} />
         </Route>
@@ -34,4 +37,16 @@ ReactDOM.render(
     </Router>
   </Provider>,
   document.getElementById('app')
+
 );
+
+//
+//
+
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <Router history={browserHistory}>
+//       <Route path="/" component={MoodSelectorContainer} />
+//     </Router>
+//   </Provider>,
+//   document.getElementById('app')

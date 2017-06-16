@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import MoodSelector from './MoodSelector';
-import { getMusic } from '../reducer/music';
+import CurrentMusic from './CurrentMusic';
+import { getMusic, loadMusic } from '../reducer/music';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
   return {
     newMusic: function (selectedMood) {
-      const action = getMusic(selectedMood)
+      const action = loadMusic(selectedMood)
       dispatch(action);
     }
   };
@@ -27,29 +28,35 @@ class MoodSelectorContainer extends Component {
     this.setState({
       moodValue: value
     });
-    console.log(this.state.moodValue)
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
     console.log('anything', this.state.moodValue);
-    // this.props.setMood(this.state.moodValue);
+    this.props.newMusic(this.state.moodValue);
   }
 
   render (props) {
-    console.log('MoodSelectorContainer')
+    console.log('MoodSelectorContainer', this.props.currentMusic)
     return (
-      <MoodSelector
-        handleChange={this.handleChange}
-        handleSubmit={this.handleSubmit}
-        moodValue={this.moodValue}
-      />
+      <div>
+        <MoodSelector
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+          moodValue={this.moodValue}
+          />
+        <CurrentMusic
+          currentMusic={this.props.currentMusic}
+          />
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return {}
+  return {
+    currentMusic: state.music.tracks
+  };
 };
 
 export default connect(

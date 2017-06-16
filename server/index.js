@@ -7,11 +7,12 @@ const passport = require('passport');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db');
 const store = new SequelizeStore({ db });
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 const app = express();
 module.exports = app;
 
-if (process.env.NODE_ENV === 'development') require('../secrets');
+require('../secrets');
+// if (process.env.NODE_ENV === 'development') require('../secrets');
 
 passport.serializeUser((user, done) =>
   done(null, user.id));
@@ -34,7 +35,7 @@ const createApp = () => app
   }))
   .use(passport.initialize())
   .use(passport.session())
-  .use('/auth', require('./auth'))
+  // .use('/auth', require('./auth'))
   .use('/api', require('./api'))
   .use((req, res, next) =>
     path.extname(req.path).length > 0 ? res.status(404).send('Not found') : next())

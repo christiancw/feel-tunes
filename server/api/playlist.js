@@ -1,8 +1,8 @@
-const request = require('request'); // "Request" library
+const request = require('request');
 const router = require('express').Router();
 module.exports = router;
-const clientId = process.env.SPOTIFY_CLIENT_ID; // Your client id
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET; // Your secret
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 //  requests authorization
 var authOptions = {
   url: 'https://accounts.spotify.com/api/token',
@@ -17,7 +17,7 @@ var authOptions = {
 
 //setting artists, tracks, generes as seeds for the recommendation request
 
-const currentMood = 'tired';
+// const currentMood = 'tired';
 
 const emotionLookup = {
   happy: 1,
@@ -42,12 +42,15 @@ const genres = [
 
 const artistSeed = '4NHQUGzhtTLFvgF5SZesLK';
 const trackSeed = '0c6xIDDpzE81m2q797ordA';
-const genreSeed = genres[emotionLookup[currentMood]];
+// const genreSeed = genres[emotionLookup[currentMood]];
 
 // url: `https://api.spotify.com/v1/recommendations?seed_artists=${artistSeed}&seed_tracks=${trackSeed}&min_energy=0.4&min_popularity=50&market=US`,
 
 
 router.get('/', (req, res, next) => {
+  console.log('REQBODY==>', req.query.id)
+  const currentMood = req.query.id;
+  const genreSeed = genres[emotionLookup[currentMood]];
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
 

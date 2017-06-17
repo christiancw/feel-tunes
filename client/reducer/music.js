@@ -10,7 +10,10 @@ const getMusic = music => ({ type: GET_MUSIC, music});
 
 export const loadMusic = (mood) =>
   dispatch =>
-    axios.get('/api/playlist', {mood})
+    axios.get('/api/playlist', {
+    params: {
+      id: mood
+    }})
     .then(res => {
       console.log('trying to get music', res.data)
       dispatch(getMusic(res.data.body.tracks));

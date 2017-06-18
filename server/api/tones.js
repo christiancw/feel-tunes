@@ -1,28 +1,22 @@
 const router = require('express').Router();
 module.exports = router;
-// const bodyParser = require('body-parser');
-var flatten = require('flat')
 
-// router.use(bodyParser.json());
-
-const userName = process.env.WATSON_TONE_CREDS['username'];
-const password = process.env.WATSON_TONE_CREDS['password'];
-const url = process.env.WATSON_TONE_CREDS.url;
+const userName = process.env.WATSON_USERNAME;
+const password = process.env.WATSON_PASSWORD;
 
 const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 const tone_analyzer = new ToneAnalyzerV3({
-  username: "61a864a7-c1b6-46aa-8342-fd9928b69bf9",
-  password: "hy3ge1nipTBw",
+  username: userName,
+  password: password,
   version_date: '2016-05-19'
 });
 
-const sampleText = 'I feel so happy about this project.'
+// const sampleText = 'Americans will only be able to travel to Cuba as part of authorized educational tours'
 
-const params = {
-  // Get the text from the JSON file.
-  text: sampleText,
-  tones: 'emotion'
-};
+// const params = {
+//   text: sampleText,
+//   tones: 'emotion'
+// };
 
 function topFeeling(resp){
   const outerTonesArr = resp.document_tone.tone_categories;
@@ -38,7 +32,12 @@ function topFeeling(resp){
 
 
 router.get('/', (req, res, next) => {
-  console.log('REQUEST==>', req)
+  // console.log('REQUEST==>', req)
+  const inputText = req.query.text;
+  const params = {
+    text: inputText,
+    tones: 'emotion'
+  };
   tone_analyzer.tone(params, function(error, response) {
     if (error) {
       console.log('error:', error);

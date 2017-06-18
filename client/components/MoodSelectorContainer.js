@@ -54,6 +54,7 @@ class MoodSelectorContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('STATE OF MUSIC', state)
   return {
     currentMusic: state.music.tracks
   };

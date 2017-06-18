@@ -21,7 +21,7 @@ const authOptions = {
 const happyGenres = ['chicago-house', 'edm', 'funk', 'latin', 'pop'].join('&');
 const sadGenres = ['acoustic', 'folk', 'sad', 'soul', 'grunge'].join('&');
 const emotionLookup = {
-  happy: happyGenres,
+  Joy: happyGenres,
   sad: sadGenres,
   energetic: 3,
   tired: 4,
@@ -59,6 +59,7 @@ router.get('/', (req, res, next) => {
   console.log('REQBODY==>', req.query.id)
   const currentMood = req.query.id;
   const genreSeed = emotionLookup[currentMood];
+  console.log('GENRESEED===>', genreSeed)
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
 

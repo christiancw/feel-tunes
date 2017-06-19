@@ -3,6 +3,9 @@ import MoodSelector from './MoodSelector';
 import CurrentMusic from './CurrentMusic';
 import { getMusic, loadMusic } from '../reducer/music';
 import { connect } from 'react-redux';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -34,16 +37,21 @@ class MoodSelectorContainer extends Component {
     evt.preventDefault();
     console.log('anything', this.state.moodValue);
     this.props.newMusic(this.state.moodValue);
+    this.setState({
+      moodValue: ''
+    });
   }
 
   render (props) {
     console.log('MoodSelectorContainer', this.props.currentMusic)
+    console.log('stateMood', this.state.moodValue);
+    console.log('moodval', this.moodValue);
     return (
       <div>
         <MoodSelector
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
-          moodValue={this.moodValue}
+          moodValue={this.state.moodValue}
           />
         <CurrentMusic
           currentMusic={this.props.currentMusic}

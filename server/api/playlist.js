@@ -20,15 +20,16 @@ const authOptions = {
 // const currentMood = 'tired';
 const happyGenres = ['chicago-house', 'edm', 'funk', 'latin', 'pop'].join('&');
 const sadGenres = ['acoustic', 'folk', 'sad', 'soul', 'grunge'].join('&');
+const disgustGenres = ['black-metal', 'dubstep', 'goth', 'punk', 'opera'].join('&');
+const fearGenres = ['alternative', 'deep-house', 'trance', 'jazz', 'classical'].join('&');
+const angerGenres = ['grindcore', 'hardcore', 'opera', 'death-metal', 'metal'].join('&');
+
 const emotionLookup = {
   Joy: happyGenres,
-  sad: sadGenres,
-  energetic: 3,
-  tired: 4,
-  afraid: 5,
-  disgusted: 6,
-  angry: 7,
-  surprised: 8
+  Sadness: sadGenres,
+  Disgust: disgustGenres,
+  Fear: fearGenres,
+  Anger: angerGenres
 };
 
 

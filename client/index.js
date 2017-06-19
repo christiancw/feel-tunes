@@ -10,6 +10,19 @@ import MoodSelectorContainer from './components/MoodSelectorContainer';
 // import {Main} from './components';
 // import MoodSelector from './components';
 import { me } from './reducer/user';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {darkBlack} from 'material-ui/styles/colors';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: "#6A8EAE",
+    primary2Color: "9BD1E5",
+    primary3Color: "#BEBBBB",
+    textColor: darkBlack,
+    borderColor: "#BEBBBB"
+  }
+});
 
 const whoAmI = store.dispatch(me());
 
@@ -23,19 +36,20 @@ const requireLogin = (nextRouterState, replace, next) =>
     .catch(err => console.log(err));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={Main}>
-        <IndexRoute component={Login} />
-        <Route path="login" component={Login} />
-        <Route path="signup" component={Signup} />
-        <Route path="mood" component={MoodSelectorContainer} />
-        <Route onEnter={requireLogin}>
-          <Route path="home" component={UserHome} />
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={Main}>
+          <Route path="login" component={Login} />
+          <Route path="signup" component={Signup} />
+          <Route path="app" component={MoodSelectorContainer} />
+          <Route onEnter={requireLogin}>
+            <Route path="home" component={UserHome} />
+          </Route>
         </Route>
-      </Route>
-    </Router>
-  </Provider>,
+      </Router>
+    </Provider>
+   </MuiThemeProvider>,
   document.getElementById('app')
 
 );

@@ -8,6 +8,7 @@ import Button from 'muicss/lib/react/button';
 
 const style = {
   margin: 12,
+  color: "#6A8EAE"
 };
 
 export default function MoodSelector (props) {
@@ -17,19 +18,23 @@ export default function MoodSelector (props) {
   console.log('HELOOOOOOO', props)
 
   return (
-    <div
+    <form
       onSubmit={handleSubmit}>
+      <div>
         <TextField
           hintText="Write down some feelings"
           onChange={handleChange}
           value={moodValue}
           />
-          <FlatButton
-            label="GET MUSIC"
-            style={style}
-            fullWidth={true}
-            type="submit">
-          </FlatButton>
-        </div>
+        <div>
+        <FlatButton
+          label="GET MUSIC"
+          style={style}
+          fullWidth={true}
+          type="submit">
+        </FlatButton>
+      </div>
+      </div>
+    </form>
   );
 }

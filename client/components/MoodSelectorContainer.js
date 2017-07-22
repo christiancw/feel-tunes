@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import MoodSelector from './MoodSelector';
 import CurrentMusic from './CurrentMusic';
-import { getMusic, loadMusic } from '../reducer/music';
+import { loadMusic } from '../reducer/music';
 import { connect } from 'react-redux';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const mapDispatchToProps = (dispatch) => {
   return {

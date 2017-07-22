@@ -19,6 +19,7 @@ const tone_analyzer = new ToneAnalyzerV3({
 // };
 
 function topFeeling(resp){
+  console.log('API RESPONSE===> ', resp)
   const outerTonesArr = resp.document_tone.tone_categories;
   const innerTonesArr = outerTonesArr[0].tones;
   let highScore = innerTonesArr[0];

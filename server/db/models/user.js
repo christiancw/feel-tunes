@@ -21,7 +21,7 @@ module.exports = db.define('user', {
   salt: {
     type: Sequelize.STRING
   },
-  googleId: {
+  spotifyId: {
     type: Sequelize.STRING
   }
 }, {

@@ -27,6 +27,7 @@ ReactDOM.render(
           <Route path="login" component={Login} />
           <Route path="signup" component={Signup} />
           <Route path="app" component={MoodSelectorContainer} />
+          <Route path="auth/spotify/callback/:accessToken" component={MoodSelectorContainer} />
           <Route onEnter={requireLogin}>
             <Route path="home" component={UserHome} />
           </Route>

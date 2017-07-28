@@ -8,15 +8,29 @@ const loggedIn = props.loggedIn;
 const handleClick = props.handleClick;
   return (
     <div className="nav">
+      <div>
+        <button>
+          <Link to="/welcome">Home</Link>
+        </button>
+      </div>
       {
         loggedIn ?
         <button
           onClick={handleClick}>
           Log Out
         </button> :
-        <button>
-          <Link to="/login">Log In</Link>
-        </button>
+        <div>
+          <div>
+            <button>
+              <Link to="/login">Log In</Link>
+            </button>
+          </div>
+          <div>
+            <button>
+              <Link to="/signup">Sign Up</Link>
+            </button>
+          </div>
+        </div>
       }
     </div>
   );

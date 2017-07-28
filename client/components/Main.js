@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../reducer/user';
 import Navbar from './Navbar';
+import MoodSelectorContainer from './MoodSelectorContainer';
 
 // Component //
 
@@ -17,6 +18,7 @@ const Main = props => {
           loggedIn={loggedIn}
           handleClick={handleClick} />
         { children }
+        <MoodSelectorContainer />
       </div>
     </div>
   );

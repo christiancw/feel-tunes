@@ -12,7 +12,7 @@ export default function MoodSelector (props) {
       <fieldset>
         <div className="feelings-input">
           <input
-            placeholder="Write down some feelings"
+            placeholder="Tell me how you feel...go!"
             onChange={handleChange}
             type="text"
             value={moodValue}
@@ -21,11 +21,11 @@ export default function MoodSelector (props) {
           <button
             type="submit"
             disabled={props.buttonDisabled}>
-            Make a Spotify Playlist!
+            Make a Playlist!
           </button>
         </div>
           {props.buttonDisabled ?
-            <div className="warning-box">(Please enter at least three words)</div>:
+            <div className="warning-box">(At least three words, please)</div>:
               null}
         </div>
       </fieldset>

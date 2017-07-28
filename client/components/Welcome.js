@@ -8,7 +8,7 @@ const Welcome = props => {
   const { loggedIn } = props;
 
   return (
-    <div>
+    <div className="welcome">
       {loggedIn ?
       <div>
         <button>

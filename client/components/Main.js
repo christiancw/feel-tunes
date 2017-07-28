@@ -12,7 +12,7 @@ const Main = props => {
   const { children, handleClick, loggedIn } = props;
 
   return (
-    <div>
+    <div className="foo">
       <div>
         <Navbar
           loggedIn={loggedIn}

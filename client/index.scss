@@ -1,5 +1,8 @@
 
   body {
+        background-image: url(StockSnap_DIKNMVOV9M.jpg);
+        background-size: cover;
+
     a {
       text-decoration: none;
     }
@@ -70,6 +73,15 @@
         float: right;
         margin: auto;
         padding: auto
+      }
+    }
+
+    .welcome {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      button {
+        background-color: transparent;
       }
     }
 

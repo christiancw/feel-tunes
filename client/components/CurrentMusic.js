@@ -20,8 +20,7 @@ export default function CurrentMusic (props) {
             <li
               key={track.id}>
               <div>
-                {track.name}
-                <img src={track.album.images[0].url} />
+                <iframe src={`https://open.spotify.com/embed?uri=spotify%3Atrack%3A${track.id}`} width="300" height="380" frameBorder="0" allowTransparency="true"></iframe>
               </div>
             </li>
           );

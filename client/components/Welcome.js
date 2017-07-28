@@ -5,17 +5,17 @@ import { logout } from '../reducer/user';
 
 const Welcome = props => {
 
-  const { loggedIn } = props;
+  const { loggedIn, userName } = props;
 
   return (
     <div className="welcome">
       {loggedIn ?
-      <div>
+      <div className="welcome-buttons">
         <button>
-          <Link to="/app">Continue as person</Link>
+          <Link to="/app">Continue as {userName}</Link>
         </button>
       </div> :
-      <div>
+      <div className="welcome-buttons">
         <div>
           <button>
             <Link to="/login">Log In</Link>
@@ -38,7 +38,8 @@ const Welcome = props => {
 }
 
 const mapState = ({ user }) => ({
-  loggedIn: !!user.id
+  loggedIn: !!user.id,
+  userName: user.spotifyId || null
 });
 
 const mapDispatch = dispatch => ({

@@ -17,16 +17,27 @@ class MoodSelectorContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      moodValue: ''
+      moodValue: '',
+      buttonDisabled: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClearButton = this.handleClearButton.bind(this);
   }
 
   handleChange(evt) {
     const value = evt.target.value;
+    const checkInput = inputString => {
+      if (inputString.split(' ').length < 3 ){
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
     this.setState({
-      moodValue: value
+      moodValue: value,
+      buttonDisabled: checkInput(value)
     });
   }
 
@@ -39,9 +50,18 @@ class MoodSelectorContainer extends Component {
     });
   }
 
+  // handleClearButton(evt) {
+  //   this.setState({
+  //     moodValue: ''
+  //   });
+  // }
+  handleClearButton(evt){
+    console.log('clearstate-->', this.state)
+  }
+
   render (props) {
     console.log('MoodSelectorContainer', this.props.currentMusic)
-    console.log('stateMood', this.state.moodValue);
+    console.log('CURSTATE', this.state);
     console.log('moodval', this.moodValue);
     return (
       <div>
@@ -49,9 +69,11 @@ class MoodSelectorContainer extends Component {
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
           moodValue={this.state.moodValue}
+          buttonDisabled={this.state.buttonDisabled}
           />
         <CurrentMusic
           currentMusic={this.props.currentMusic}
+          handleClearButton={this.handleClearButton}
           />
       </div>
     );

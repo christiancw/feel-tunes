@@ -10,19 +10,23 @@ export default function MoodSelector (props) {
     <form
       onSubmit={handleSubmit}>
       <fieldset>
-        <div>
+        <div className="feelings-input">
           <input
             placeholder="Write down some feelings"
             onChange={handleChange}
             type="text"
             value={moodValue}
             />
-          <div>
+          <div className="form-button">
           <button
-            type="submit">
-            GET MUSIC
+            type="submit"
+            disabled={props.buttonDisabled}>
+            Make a Spotify Playlist!
           </button>
         </div>
+          {props.buttonDisabled ?
+            <div className="warning-box">(Please enter at least three words)</div>:
+              null}
         </div>
       </fieldset>
     </form>

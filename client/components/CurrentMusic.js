@@ -2,17 +2,23 @@ import React from 'react';
 
 export default function CurrentMusic (props) {
   const tracks = props.currentMusic;
+  const handleClearButton = props.handleClearButton;
   console.log('CurrentMusicPROPS', props)
 
   return (
-    <div>
+    <div className="track-response">
       {tracks.length ?
-        <div className="something">
-          Here's the music
-        </div> :
-        <div className="something">
-          This is where tracks will appear
-        </div>
+        <div className="tracks-area"/>
+          // <button
+          //   type="submit"
+          //   onClick={handleClearButton}>
+          //   Clear
+          // </button>
+          // <button>
+          //   Save to Spotify
+          // </button>
+        :
+        null
       }
       <ul>
         {tracks && tracks.map(track => {

@@ -2,9 +2,13 @@
   body {
         background-image: url(StockSnap_DIKNMVOV9M.jpg);
         background-size: cover;
+        width: 100%;
+        margin: 0;
+        font-family: "Helvetica Neue";
 
     a {
       text-decoration: none;
+      color: inherit;
     }
 
     label {
@@ -19,7 +23,13 @@
     form div {
       margin: 1em;
       display: inline-block;
-      width: 70%
+      width: 70%;
+      color: white;
+    }
+
+    fieldset {
+      border-color: transparent;
+      background-color: transparent;
     }
 
     h1 {
@@ -30,10 +40,22 @@
       width: 100%;
       padding: 10px 20px;
       border: none;
-      border-bottom: 2px solid blue;
+      border-bottom: 2px solid grey;
       background-color: transparent;
       outline: none;
       font-size: 24px;
+      color: black;
+    }
+
+    .form-button {
+      width: 33%;
+      button {
+        background-color: #1DB954;
+      }
+    }
+
+    .spotify-auth {
+      background-color: #1DB954;
     }
 
     input:focus {
@@ -42,31 +64,60 @@
 
     button {
       position: relative;
-      background-color: white;
+      background-color: transparent;
+      color: white;
       border: 2px solid black;
       font-size: 16px;
       padding: 12px 28px;
+      border-radius: 10px;
       cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .warning-box {
+      color: black;
+      width: 33%;
+      text-align: left;
     }
 
     button:hover {
-      background-color: #4CAF50; /* Green */
-      color: white;
+      background-color: white;
+      color: black;
       cursor: pointer;
     }
 
-    .something {
-      background-color: transparent;
-      border: 2px solid grey;
-      margin-top: 20px;
-      text-align: center;
+    .feelings-input {
+      width: 100%
+    }
+
+    .track-response {
+      background-color: #191414;
+    }
+
+    .tracks-area {
+      border-top: 2px solid grey;
+      margin: 30px;
+      padding: 25px;
       font-weight: bold;
+      left: 10%;
+      button {
+        background-color: #1DB954;
+        margin: 15px;
+      }
+      button:hover {
+        background-color: white;
+        color: black;
+        cursor: pointer;
+      }
     }
 
     .nav {
-      border: 2px solid grey;
-      background-color: blue;
-      padding: 30px auto;
+      background-color: #191414;
+      padding: auto;
       display: inline-block;
       width: 100%;
       button {
@@ -76,12 +127,27 @@
       }
     }
 
+    .mainClass {
+      background-color: white;
+    }
+
     .welcome {
       position: absolute;
-      top: 50%;
       left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      .welcome-buttons {
+        border-bottom: 3px solid white;
+        border-top: 3px solid white;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
       button {
-        background-color: transparent;
+        margin: 10px;
+        display: flex;
+        width: 85%;
       }
     }
 

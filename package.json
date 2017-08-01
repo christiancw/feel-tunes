@@ -4,12 +4,13 @@
   "description": "Give me feelings, and I will give you back music",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -w & nodemon server",
+    "start": "node server",
+    "start-dev": "webpack -w & nodemon server",
     "start-server": "nodemon server",
     "build-client": "webpack",
     "test": "DATABASE_URL='postgres://localhost:5432/feeltunes-test' mocha ./**/*.spec.js --compilers js:babel-register"
   },
-  "author": "",
+  "author": "Christian Wentling",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.15.3",

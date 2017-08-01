@@ -22,7 +22,6 @@ class MoodSelectorContainer extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClearButton = this.handleClearButton.bind(this);
   }
 
   handleChange(evt) {
@@ -43,26 +42,13 @@ class MoodSelectorContainer extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    console.log('anything', this.state.moodValue);
     this.props.newMusic(this.state.moodValue);
     this.setState({
       moodValue: ''
     });
   }
 
-  // handleClearButton(evt) {
-  //   this.setState({
-  //     moodValue: ''
-  //   });
-  // }
-  handleClearButton(evt){
-    console.log('clearstate-->', this.state)
-  }
-
   render (props) {
-    console.log('MoodSelectorContainer', this.props.currentMusic)
-    console.log('CURSTATE', this.state);
-    console.log('moodval', this.moodValue);
     return (
       <div>
         <MoodSelector
@@ -81,7 +67,6 @@ class MoodSelectorContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('STATE OF MUSIC', state)
   return {
     currentMusic: state.music.tracks
   };

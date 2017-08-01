@@ -3,7 +3,6 @@ import '../index.scss';
 import { Link } from 'react-router';
 
 export default function Navbar (props) {
-console.log('navProps-->', props);
 const loggedIn = props.loggedIn;
 const handleClick = props.handleClick;
   return (

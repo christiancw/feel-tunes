@@ -32,7 +32,7 @@ export const logout = () =>
         dispatch(removeUser());
         browserHistory.push('/login');
       })
-      .catch(err => console.log(err));
+      .catch(err => (err));
 
 export default function (state = defaultUser, action) {
   switch (action.type) {

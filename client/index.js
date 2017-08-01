@@ -19,7 +19,7 @@ const requireLogin = (nextRouterState, replace, next) =>
       if (!user.id) replace('/login');
       next();
     })
-    .catch(err => console.log(err));
+    .catch(err => (err));
 
 ReactDOM.render(
     <Provider store={store}>

@@ -33,6 +33,6 @@ module.exports = router
     res.redirect('/');
   })
   // .get('/me', (req, res) => {
-  //   console.log('GETTING ME', req.user)
+  //   ('GETTING ME', req.user)
   //   res.json(req.user);
   // })

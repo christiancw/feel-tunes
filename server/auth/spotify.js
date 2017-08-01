@@ -11,7 +11,7 @@ const spotifyConfig = {
 
 passport.use(new SpotifyStrategy(spotifyConfig,
   function verficationCallback (accessToken, refreshToken, profile, done) {
-    console.log('PROFILE--->', profile)
+    ('PROFILE--->', profile)
     User.findOrCreate({
       where: {spotifyId: profile.id },
       defaults: {email: profile.emails[0].value}

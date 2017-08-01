@@ -11,15 +11,7 @@ const tone_analyzer = new ToneAnalyzerV3({
   version_date: '2016-05-19'
 });
 
-// const sampleText = 'Americans will only be able to travel to Cuba as part of authorized educational tours'
-
-// const params = {
-//   text: sampleText,
-//   tones: 'emotion'
-// };
-
 function topFeeling(resp){
-  console.log('API RESPONSE===> ', resp)
   const outerTonesArr = resp.document_tone.tone_categories;
   const innerTonesArr = outerTonesArr[0].tones;
   let highScore = innerTonesArr[0];
@@ -33,7 +25,6 @@ function topFeeling(resp){
 
 
 router.get('/', (req, res, next) => {
-  // console.log('REQUEST==>', req)
   const inputText = req.query.text;
   const params = {
     text: inputText,
@@ -50,7 +41,3 @@ router.get('/', (req, res, next) => {
   }
 );
 });
-
-// const topTone = (tonesObj) => {
-//
-// }

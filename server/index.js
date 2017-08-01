@@ -49,7 +49,7 @@ const syncDb = () =>
 
 const listenUp = () =>
   app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`));
+    (`Mixing it up on port ${PORT}`));
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)

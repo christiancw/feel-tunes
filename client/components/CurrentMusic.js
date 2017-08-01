@@ -3,20 +3,11 @@ import React from 'react';
 export default function CurrentMusic (props) {
   const tracks = props.currentMusic;
   const handleClearButton = props.handleClearButton;
-  console.log('CurrentMusicPROPS', props)
 
   return (
     <div className="track-response">
       {tracks.length ?
         <div className="tracks-area"/>
-          // <button
-          //   type="submit"
-          //   onClick={handleClearButton}>
-          //   Clear
-          // </button>
-          // <button>
-          //   Save to Spotify
-          // </button>
         :
         null
       }

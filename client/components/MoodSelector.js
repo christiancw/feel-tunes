@@ -4,7 +4,6 @@ export default function MoodSelector (props) {
   const handleChange = props.handleChange;
   const handleSubmit = props.handleSubmit;
   const moodValue = props.moodValue;
-  console.log('HELOOOOOOO', props)
 
   return (
     <form
@@ -12,7 +11,7 @@ export default function MoodSelector (props) {
       <fieldset>
         <div className="feelings-input">
           <input
-            placeholder="Tell me how you feel...go!"
+            placeholder="I feel..."
             onChange={handleChange}
             type="text"
             value={moodValue}
@@ -24,9 +23,11 @@ export default function MoodSelector (props) {
             Make a Playlist!
           </button>
         </div>
-          {props.buttonDisabled ?
-            <div className="warning-box">(At least three words, please)</div>:
-              null}
+          {
+            props.buttonDisabled ?
+            <div className="warning-box">(At least three words, please)</div>
+              : null
+            }
         </div>
       </fieldset>
     </form>

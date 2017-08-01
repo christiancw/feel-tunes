@@ -11,8 +11,7 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 module.exports = app;
 
-require('../secrets');
-// if (process.env.NODE_ENV === 'development') require('../secrets');
+if (process.env.NODE_ENV === 'development') require('../secrets');
 
 passport.serializeUser((user, done) =>
   done(null, user.id));
@@ -51,10 +50,6 @@ const listenUp = () =>
   app.listen(PORT, () =>
     (`Mixing it up on port ${PORT}`));
 
-// This evaluates as true when this file is run directly from the command line,
-// i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
-// It will evaluate false when this module is required by another module - for example,
-// if we wanted to require our app in a test spec
 if (require.main === module) {
   store.sync()
     .then(syncDb)

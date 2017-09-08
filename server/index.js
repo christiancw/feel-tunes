@@ -11,7 +11,9 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 module.exports = app;
 
-if (process.env.NODE_ENV === 'development') require('../secrets');
+// if (process.env.NODE_ENV === 'development') require('../secrets');
+//require for running locally:
+require('../secrets');
 
 passport.serializeUser((user, done) =>
   done(null, user.id));

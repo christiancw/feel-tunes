@@ -1,19 +1,10 @@
 const router = require('express').Router();
 const User = require('../db/models/user');
-// const HttpError = require('../../utils/HttpError');
-
-// This marries the original auth code we wrote to Passport.
-// An alternative would be to use the "local strategy" option with Passport.
 
 // check currently-authenticated user, i.e. "who am I?"
 router.get('/', function (req, res, next) {
   // with Passport:
-  ('USER-->', req.user)
   res.send(req.user);
-  // // before, without Passport:
-  // User.findById(req.session.userId)
-  // .then(user => res.json(user))
-  // .catch(next);
 });
 
 // signup, i.e. "let `me` introduce myself"
@@ -37,7 +28,6 @@ router.post('/', function (req, res, next) {
     }
   });
 });
-
 // login, i.e. "you remember `me`, right?"
 router.put('/', function (req, res, next) {
   User.findOne({
@@ -57,9 +47,6 @@ router.put('/', function (req, res, next) {
         if (err) return next(err);
         res.json(user);
       });
-      // // before, without Passport:
-      // req.session.userId = user.id;
-      // res.json(user);
     }
   })
   .catch(next);
@@ -69,8 +56,6 @@ router.put('/', function (req, res, next) {
 router.delete('/', function (req, res, next) {
   // with Passport
   req.logOut();
-  // // before, without Passport
-  // delete req.session.userId;
   res.sendStatus(204);
 });
 

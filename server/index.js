@@ -50,7 +50,7 @@ const syncDb = () =>
 
 const listenUp = () =>
   app.listen(PORT, () =>
-    (`Mixing it up on port ${PORT}`));
+    (console.log(`Mixing it up on port ${PORT}`)));
 
 if (require.main === module) {
   store.sync()

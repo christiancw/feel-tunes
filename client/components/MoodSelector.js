@@ -4,6 +4,7 @@ export default function MoodSelector (props) {
   const handleChange = props.handleChange;
   const handleSubmit = props.handleSubmit;
   const moodValue = props.moodValue;
+  // console.log('STATE==>', this.state);
 
   return (
     <form

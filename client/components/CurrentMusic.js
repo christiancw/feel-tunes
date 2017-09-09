@@ -3,6 +3,7 @@ import React from 'react';
 export default function CurrentMusic (props) {
   const tracks = props.currentMusic;
   const handleClearButton = props.handleClearButton;
+  const fetchingMusic = props.fetchingMusic;
 
   return (
     <div className="track-response">
@@ -10,6 +11,11 @@ export default function CurrentMusic (props) {
         <div className="tracks-area"/>
         :
         null
+      }
+      {fetchingMusic ?
+      <div className="loader"/>
+      :
+      null
       }
       <ul>
         {tracks && tracks.map(track => {

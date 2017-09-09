@@ -60,6 +60,7 @@ class MoodSelectorContainer extends Component {
         <CurrentMusic
           currentMusic={this.props.currentMusic}
           handleClearButton={this.handleClearButton}
+          fetchingMusic={this.props.fetchingMusic}
           />
       </div>
     );
@@ -67,8 +68,10 @@ class MoodSelectorContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log('HELLOOO')
   return {
-    currentMusic: state.music.tracks
+    currentMusic: state.music.tracks,
+    fetchingMusic: state.music.isFetchingMusic
   };
 };
 

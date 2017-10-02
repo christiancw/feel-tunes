@@ -93,6 +93,21 @@
       background-color: #191414;
     }
 
+    @media (max-width: 960px) {
+      li.col-left {
+        float: none;
+        width: 100%;
+      }
+      li.col-right {
+        float: none;
+        width: 100%;
+      }
+      li.col-middle {
+        float: none;
+        width: 100%;
+      }
+    }
+
     .tracks-area {
       border-top: 2px solid grey;
       margin: 30px;
@@ -147,12 +162,26 @@
     }
 
     ul {
-      columns: 3;
       list-style: none;
+      width: auto;
     }
 
     li {
-      padding: 5px;
+      width: 33%;
+      list-style-type: none;
+      display: block;
+    }
+
+    li.col-left {
+      float: left;
+    }
+
+    li.col-middle {
+      float: left;
+    }
+
+    li.col-right {
+      float: right;
     }
 
     img {
@@ -162,7 +191,8 @@
 
     .loader {
       border: 16px solid #f3f3f3; /* Light grey */
-      border-top: 16px solid #3498db; /* Blue */
+      border-top: 16px solid #1DB954;
+      text-align: center;
       border-radius: 50%;
       width: 120px;
       height: 120px;

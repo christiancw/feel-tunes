@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import MoodSelector from './MoodSelector';
 import CurrentMusic from './CurrentMusic';
-import { loadMusic } from '../reducer/music';
+import ClearButton from './ClearButton';
+import SaveButton from './SaveButton';
+import { loadMusic, sendTracks, clearTracks } from '../reducer/music';
 import { connect } from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
@@ -9,8 +11,17 @@ const mapDispatchToProps = (dispatch) => {
     newMusic: function (selectedMood) {
       const action = loadMusic(selectedMood)
       dispatch(action);
+    },
+    saveMusic: function (tracks, user) {
+      console.log(tracks, user);
+      const action = sendTracks(tracks, user)
+      dispatch(action);
+    },
+    clearMusic: function () {
+      const action = clearTracks()
+      dispatch(action);
     }
-  };
+  }
 };
 
 class MoodSelectorContainer extends Component {
@@ -18,10 +29,13 @@ class MoodSelectorContainer extends Component {
     super(props);
     this.state = {
       moodValue: '',
-      buttonDisabled: true
+      buttonDisabled: true,
+      currentUser: this.props.currentUser
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleClearButton = this.handleClearButton.bind(this);
   }
 
   handleChange(evt) {
@@ -48,7 +62,19 @@ class MoodSelectorContainer extends Component {
     });
   }
 
+  handleSave(evt) {
+    evt.preventDefault();
+    console.log(this.props)
+    this.props.saveMusic(this.props.currentMusic, this.props.currentUser);
+  }
+
+  handleClearButton(evt) {
+    evt.preventDefault();
+    this.props.clearMusic();
+  }
+
   render (props) {
+    // console.log('PROPS--->', this.props)
     return (
       <div>
         <MoodSelector
@@ -57,9 +83,14 @@ class MoodSelectorContainer extends Component {
           moodValue={this.state.moodValue}
           buttonDisabled={this.state.buttonDisabled}
           />
+        <SaveButton
+          handleSave={this.handleSave}
+          />
+        <ClearButton
+          handleClearButton={this.handleClearButton}
+          />
         <CurrentMusic
           currentMusic={this.props.currentMusic}
-          handleClearButton={this.handleClearButton}
           fetchingMusic={this.props.fetchingMusic}
           />
       </div>
@@ -68,10 +99,10 @@ class MoodSelectorContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log('HELLOOO')
   return {
     currentMusic: state.music.tracks,
-    fetchingMusic: state.music.isFetchingMusic
+    fetchingMusic: state.music.isFetchingMusic,
+    currentUser: state.user
   };
 };
 

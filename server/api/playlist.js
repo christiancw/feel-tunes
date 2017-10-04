@@ -1,8 +1,10 @@
 const request = require('request');
+const axios = require('axios');
 const router = require('express').Router();
 module.exports = router;
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const User = require('../db/models/user');
 //  requests authorization
 const authOptions = {
   url: 'https://accounts.spotify.com/api/token',
@@ -46,6 +48,8 @@ const genres = [
       'house',
 ];
 
+let recommendationsToken;
+
 router.get('/', (req, res, next) => {
   const currentMood = req.query.id;
   const genreSeed = emotionLookup[currentMood];
@@ -53,11 +57,11 @@ router.get('/', (req, res, next) => {
     if (!error && response.statusCode === 200) {
 
       // use the access token to access the Spotify Web API
-      const token = body.access_token;
-      var options = {
+      recommendationsToken = body.access_token;
+      let options = {
         url: `https://api.spotify.com/v1/recommendations?seed_genres=${genreSeed}&market=US`,
         headers: {
-          'Authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + recommendationsToken
         },
         json: true
       };
@@ -67,3 +71,57 @@ router.get('/', (req, res, next) => {
     }
   });
 })
+
+router.post('/', (req, res, next) => {
+  console.log('REQUEST FOR SAVE', req.body.params)
+  const tracksList = req.body.params.tracks;
+  const userId = req.body.params.userId;
+  const token = req.body.params.accessToken;
+  const refreshToken = req.body.params.refreshToken;
+  const postURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
+
+  const playlistAuthOptions = {
+    url: authOptions.url,
+    headers: {
+      'Authorization': 'Basic ' + (new Buffer(clientId + ':' + clientSecret).toString('base64'))
+    },
+    json: true,
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    }
+  }
+
+  console.log('authoptions--->', playlistAuthOptions)
+
+  request.post(playlistAuthOptions, function(error, response, body) {
+    console.log('will try the request', response.body)
+    if (!error && response.statusCode === 200) {
+
+      const playlistsToken = body.access_token;
+      let options = {
+        url: postURI,
+        headers: {
+          'Authorization': 'Bearer ' + playlistsToken,
+          'Content-Type': 'application/json'
+        },
+        json: true,
+        body: {
+          name: 'apple',
+          public: false
+        }
+      };
+      request.post(options, function(response, body) {
+        res.send(body);
+      })
+      }
+    })
+  })
+
+
+
+//this worked:
+// curl -X POST "https://api.spotify.com/v1/users/cw3n71n9/playlists" -H "Authorization: Bearer BQC4qDBNaszW9oZPwTybwij2f5kj7dzXTQ6bqtONQnI62iTscaIxcCp6AfEBRU2gP5Z2v0CDsGAu7Bm1Q6xb-cTYUC7DIAYJVEAOgQuIMFzKo4PK0RL_ukFwqxiztWB8TkftmbWfw0ajIhWmsPiBllJJpHB4BLT9t2XwOpzfxSYuCgB7wkA7jE7OkeqcJq5JI5G1AP1JSryY" -H "Content-Type: application/json" --data "{\"name\":\"A New Playlist\", \"public\":false}"
+
+
+// curl -X POST "https://accounts.spotify.com/api/token" -H "Authorization: Basic NmQ2OThmMDRkNTcxNDk3MGI2NmMyZGYyYTNmZTJmM2Q6MmE1NjhmZGE4YWYyNDNhNDlmNTJmZDZkZWVjMjE4ZDM=" -d grant_type=refresh_token -d refresh_token=AQBvDi7KU6MOTegTnGshastsOAnQKyc2ZzmUt-wygib8zh-4b22tHd_nJZZE2hvB4BG9KcOJsMKhHg8j_82qq7Yx_54QJ3lTTag5VCEmu1U6eJrKkNV_TeYPrrLZKIWBfSw

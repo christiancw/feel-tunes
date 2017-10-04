@@ -39,7 +39,9 @@ const Welcome = props => {
 
 const mapState = ({ user }) => ({
   loggedIn: !!user.id,
-  userName: user.spotifyId || null
+  userName: user.spotifyId || null,
+  accessToken: user.accessToken || null,
+  refreshToken: user.refreshToken || null
 });
 
 const mapDispatch = dispatch => ({

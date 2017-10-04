@@ -11,9 +11,15 @@ const spotifyConfig = {
 
 passport.use(new SpotifyStrategy(spotifyConfig,
   function verficationCallback (accessToken, refreshToken, profile, done) {
+    console.log('PROFILE-->', profile);
+    console.log('accessToken--->', accessToken);
+    console.log('refreshToken-->', refreshToken);
     User.findOrCreate({
-      where: {spotifyId: profile.id },
-      defaults: {email: profile.emails[0].value}
+      where: {
+        spotifyId: profile.id,
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      }
     })
 
     .spread(function (user) {
@@ -23,7 +29,15 @@ passport.use(new SpotifyStrategy(spotifyConfig,
   }));
 
 router.get('/',
-  passport.authenticate('spotify'),
+  passport.authenticate('spotify', {
+    scopes: [
+      'playlist-modify-private',
+      'playlist-modify-public',
+      'playlist-modify',
+      'user-read-private',
+      'playlist-read-collaborative'
+   ],
+     showDialog: true}),
   function(req, res){
     // The request will be redirected to spotify for authentication, so this
     // function will not be called.
@@ -35,4 +49,15 @@ router.get('/callback',
     // Successful authentication, redirect home.
     res.redirect('/app');
   });
+
+  // app.get('/login', function(req, res) {
+  // var scopes = 'user-read-private user-read-email';
+  // res.redirect('https://accounts.spotify.com/authorize' +
+  //   '?response_type=code' +
+  //   '&client_id=' + my_client_id +
+  //   (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+  //   '&redirect_uri=' + encodeURIComponent(redirect_uri));
+  // });
+
+
 module.exports = router

@@ -2,29 +2,25 @@ import axios from 'axios';
 
 const initialMusic = {
   tracks: [],
-  isFetchingMusic: false
+  isFetchingMusic: false,
+  tracksAreSaved: false
 };
 
 const GET_MUSIC = 'GET_MUSIC';
 
 const getMusic = music => ({ type: GET_MUSIC, music});
 
-//trying to implement loader
-
 export const REQUEST_MUSIC = 'REQUEST_MUSIC';
-// export const RECEIVE_MUSIC = 'RECEIVE_MUSIC';
 
 const requestMusic = (mood) => ({type: REQUEST_MUSIC, mood});
 
-// function receiveMusic(music) {
-//   return {
-//     type: RECEIVE_MUSIC,
-//     music: music,
-//     posts: json.data.children.map(child => child.data),
-//     receivedAt: Date.now()
-//   }
-// }
-//
+const SAVE_MUSIC = 'SAVE_MUSIC';
+
+const saveMusic = () => ({type: SAVE_MUSIC});
+
+const CLEAR_TRACKS = 'CLEAR_TRACKS';
+
+export const clearTracks = () => ({type: CLEAR_TRACKS});
 
 export const loadMusic = function(mood){
     return dispatch => {
@@ -48,6 +44,27 @@ export const loadMusic = function(mood){
     }
   };
 
+const extractTracks = trackObjectsArray => {
+  return trackObjectsArray.map(track => {
+    return track.uri;
+  });
+};
+
+export const sendTracks = function(trackList, userId){
+  console.log('sending...', trackList, userId)
+  return dispatch => {
+    return axios.post('/api/playlist', {
+      params: {
+        tracks: extractTracks(trackList),
+        userId: userId.spotifyId,
+        accessToken: userId.accessToken,
+        refreshToken: userId.refreshToken
+      }
+    })
+    .then(dispatch(saveMusic()));
+  };
+};
+
 export default function (state = initialMusic, action) {
 
   const newState = Object.assign({}, state);
@@ -56,12 +73,21 @@ export default function (state = initialMusic, action) {
 
     case REQUEST_MUSIC:
         newState.isFetchingMusic = true;
+        newState.tracksAreSaved = false;
       break;
 
     case GET_MUSIC:
       newState.tracks = action.music;
       newState.isFetchingMusic = false;
       break;
+
+    case SAVE_MUSIC:
+      newState.tracksAreSaved = true;
+      break;
+
+    case CLEAR_TRACKS:
+      newState.tracks = [];
+    break;
 
     default:
     return state;

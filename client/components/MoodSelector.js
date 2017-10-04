@@ -4,11 +4,12 @@ export default function MoodSelector (props) {
   const handleChange = props.handleChange;
   const handleSubmit = props.handleSubmit;
   const moodValue = props.moodValue;
-  // console.log('STATE==>', this.state);
+  const buttonDisabled = props.buttonDisabled;
 
   return (
     <form
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      >
       <fieldset>
         <div className="feelings-input">
           <input
@@ -20,7 +21,8 @@ export default function MoodSelector (props) {
           <div className="form-button">
           <button
             type="submit"
-            disabled={props.buttonDisabled}>
+            disabled={buttonDisabled}
+            >
             Make a Playlist!
           </button>
         </div>

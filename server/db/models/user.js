@@ -12,8 +12,13 @@ const setSaltAndPassword = user => {
 module.exports = db.define('user', {
   email: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false
+    unique: true
+  },
+  accessToken: {
+    type: Sequelize.STRING
+  },
+  refreshToken: {
+    type: Sequelize.STRING
   },
   password: {
     type: Sequelize.STRING

@@ -3,6 +3,7 @@ import MoodSelector from './MoodSelector';
 import CurrentMusic from './CurrentMusic';
 import ClearButton from './ClearButton';
 import SaveButton from './SaveButton';
+import DialogBox from './DialogBox';
 import { loadMusic, sendTracks, clearTracks } from '../reducer/music';
 import { connect } from 'react-redux';
 
@@ -83,12 +84,19 @@ class MoodSelectorContainer extends Component {
           moodValue={this.state.moodValue}
           buttonDisabled={this.state.buttonDisabled}
           />
-        <SaveButton
-          handleSave={this.handleSave}
-          />
-        <ClearButton
-          handleClearButton={this.handleClearButton}
-          />
+        {this.props.currentMusic.length !== 0 ?
+          <div>
+            <SaveButton
+              handleSave={this.handleSave}
+              />
+            <ClearButton
+              handleClearButton={this.handleClearButton}
+              />
+            <DialogBox
+              tracksAreSaved={this.props.savedMusic}
+              />
+          </div>
+        : null}
         <CurrentMusic
           currentMusic={this.props.currentMusic}
           fetchingMusic={this.props.fetchingMusic}
@@ -102,7 +110,8 @@ const mapStateToProps = (state) => {
   return {
     currentMusic: state.music.tracks,
     fetchingMusic: state.music.isFetchingMusic,
-    currentUser: state.user
+    currentUser: state.user,
+    savedMusic: state.music.tracksAreSaved
   };
 };
 

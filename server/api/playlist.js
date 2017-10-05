@@ -1,5 +1,4 @@
 const request = require('request');
-const axios = require('axios');
 const router = require('express').Router();
 module.exports = router;
 const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -125,7 +124,13 @@ router.post('/', (req, res, next) => {
             res.send(addBody);
           })
         }
+        else {
+          res.status(500).send({error: 'playlist was created but failed to add tracks'})
+        }
       })
+      }
+      else {
+        res.status(500).send({error: 'playlist could not be created'})
       }
     })
   })

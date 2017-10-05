@@ -73,12 +73,13 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  console.log('REQUEST FOR SAVE', req.body.params)
+  // console.log('REQUEST FOR SAVE', req.body.params)
   const tracksList = req.body.params.tracks;
   const userId = req.body.params.userId;
   const token = req.body.params.accessToken;
   const refreshToken = req.body.params.refreshToken;
-  const postURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
+  const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
+  const trackName = userId + String(Date.now())
 
   const playlistAuthOptions = {
     url: authOptions.url,
@@ -92,27 +93,38 @@ router.post('/', (req, res, next) => {
     }
   }
 
-  console.log('authoptions--->', playlistAuthOptions)
+  // console.log('authoptions--->', playlistAuthOptions)
 
   request.post(playlistAuthOptions, function(error, response, body) {
-    console.log('will try the request', response.body)
+    // console.log('will try the request', response.body)
     if (!error && response.statusCode === 200) {
 
       const playlistsToken = body.access_token;
       let options = {
-        url: postURI,
+        url: createPlaylistURI,
         headers: {
           'Authorization': 'Bearer ' + playlistsToken,
           'Content-Type': 'application/json'
         },
         json: true,
         body: {
-          name: 'apple',
+          name: trackName,
           public: false
         }
       };
-      request.post(options, function(response, body) {
-        res.send(body);
+      request.post(options, function(createResponse, createBody) {
+        console.log('body--', createBody)
+        console.log('response--', createResponse)
+        if (!error){
+          const playListId = createBody.body.id;
+          const addTracksURI = `https://api.spotify.com/v1/users/${userId}/playlists/${playListId}/tracks`
+          options.url = addTracksURI;
+          options.body = {'uris': tracksList};
+          console.log('postTracksOptions', options)
+          request.post(options, function(addResponse, addBody) {
+            res.send(addBody);
+          })
+        }
       })
       }
     })

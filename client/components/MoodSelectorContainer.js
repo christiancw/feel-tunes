@@ -13,9 +13,9 @@ const mapDispatchToProps = (dispatch) => {
       const action = loadMusic(selectedMood)
       dispatch(action);
     },
-    saveMusic: function (tracks, user) {
+    saveMusic: function (tracks, user, name) {
       console.log(tracks, user);
-      const action = sendTracks(tracks, user)
+      const action = sendTracks(tracks, user, name)
       dispatch(action);
     },
     clearMusic: function () {
@@ -31,12 +31,16 @@ class MoodSelectorContainer extends Component {
     this.state = {
       moodValue: '',
       buttonDisabled: true,
-      currentUser: this.props.currentUser
+      currentUser: this.props.currentUser,
+      playListName: '',
+      playlistButtondisabled: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleClearButton = this.handleClearButton.bind(this);
+    this.handlePlayListName = this.handlePlayListName.bind(this);
+
   }
 
   handleChange(evt) {
@@ -65,8 +69,21 @@ class MoodSelectorContainer extends Component {
 
   handleSave(evt) {
     evt.preventDefault();
-    console.log(this.props)
-    this.props.saveMusic(this.props.currentMusic, this.props.currentUser);
+    console.log('props in save -->', this.props)
+    console.log('this is the event--->', evt)
+    this.props.saveMusic(this.props.currentMusic, this.props.currentUser, this.state.playlistName);
+    this.setState({
+      playlistButtondisabled: true,
+      playlistName: ''
+    });
+  }
+
+  handlePlayListName(evt){
+    const value = evt.target.value;
+    console.log('handling list name-->', value)
+    this.setState({
+      playlistName: value
+    });
   }
 
   handleClearButton(evt) {
@@ -88,6 +105,8 @@ class MoodSelectorContainer extends Component {
           <div>
             <SaveButton
               handleSave={this.handleSave}
+              handlePlayListName={this.handlePlayListName}
+              playlistName={this.state.playlistName}
               />
             <ClearButton
               handleClearButton={this.handleClearButton}

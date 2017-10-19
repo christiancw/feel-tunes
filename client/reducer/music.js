@@ -50,12 +50,13 @@ const extractTracks = trackObjectsArray => {
   });
 };
 
-export const sendTracks = function(trackList, userId){
+export const sendTracks = function(trackList, userId, name){
   console.log('sending...', trackList, userId)
   return dispatch => {
     return axios.post('/api/playlist', {
       params: {
         tracks: extractTracks(trackList),
+        playlistName: name,
         userId: userId.spotifyId,
         accessToken: userId.accessToken,
         refreshToken: userId.refreshToken

@@ -78,7 +78,9 @@ router.post('/', (req, res, next) => {
   const token = req.body.params.accessToken;
   const refreshToken = req.body.params.refreshToken;
   const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
-  const trackName = userId + String(Date.now())
+  const stringDate = String(Date.now()).slice(9, 12);
+  const defaultName = userId + stringDate;
+  const trackName = req.body.params.playlistName + stringDate || defaultName;
 
   const playlistAuthOptions = {
     url: authOptions.url,

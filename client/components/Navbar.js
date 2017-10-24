@@ -14,10 +14,20 @@ const handleClick = props.handleClick;
       </div>
       {
         loggedIn ?
-        <button
-          onClick={handleClick}>
-          Log Out
-        </button> :
+        <div>
+          <div>
+            <button
+              onClick={handleClick}>
+              Log Out
+            </button>
+          </div>
+          <div>
+            <button>
+              <Link to="/userplaylists">My Playlists</Link>
+            </button>
+          </div>
+        </div>
+        :
         <div>
           <div>
             <button>

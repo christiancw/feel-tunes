@@ -7,6 +7,7 @@ import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 import store from './store';
 import { Main, Login, Signup, UserHome, Navbar } from './components';
 import MoodSelectorContainer from './components/MoodSelectorContainer';
+import UserPlaylists from './components/UserPlaylists';
 import Welcome from './components/Welcome';
 import { me } from './reducer/user';
 
@@ -29,10 +30,11 @@ ReactDOM.render(
           <Route path="welcome" component={Welcome} />
           <Route path="login" component={Login} />
           <Route path="signup" component={Signup} />
+          <Route path="userplaylists" component={UserPlaylists} />
           <Route path="app" component={Main} />
           <Route path="auth/spotify/callback/:accessToken" component={MoodSelectorContainer} />
           <Route onEnter={requireLogin}>
-            <Route path="home" component={UserHome} />
+            <Route path="home" component={Main} />
           </Route>
         </Route>
       </Router>

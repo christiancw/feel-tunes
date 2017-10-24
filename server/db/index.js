@@ -2,6 +2,13 @@ const db = require('./db');
 
 // register models
 require('./models');
+const Playlist = require('./models/Playlist');
+const User = require('./models/User');
 
-module.exports = db;
+Playlist.belongsTo(User);
 
+module.exports = {
+  db,
+  Playlist,
+  User
+};

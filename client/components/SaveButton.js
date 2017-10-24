@@ -12,7 +12,6 @@ export default function SaveButton (props) {
       <form
         onSubmit={handleSave}>
         <input
-          className="playlist-name"
           placeholder="Give your playlist a name"
           onChange={handlePlayListName}
           type="text"

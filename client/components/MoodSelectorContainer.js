@@ -34,13 +34,13 @@ class MoodSelectorContainer extends Component {
       currentUser: this.props.currentUser,
       playListName: '',
       playlistButtondisabled: false,
+      playlistNameable: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleClearButton = this.handleClearButton.bind(this);
     this.handlePlayListName = this.handlePlayListName.bind(this);
-
   }
 
   handleChange(evt) {
@@ -63,7 +63,8 @@ class MoodSelectorContainer extends Component {
     evt.preventDefault();
     this.props.newMusic(this.state.moodValue);
     this.setState({
-      moodValue: ''
+      moodValue: '',
+      playlistNameable: true
     });
   }
 
@@ -73,17 +74,24 @@ class MoodSelectorContainer extends Component {
     console.log('this is the event--->', evt)
     this.props.saveMusic(this.props.currentMusic, this.props.currentUser, this.state.playlistName);
     this.setState({
-      playlistButtondisabled: true,
-      playlistName: ''
+      playlistName: '',
+      playlistNameable: false
     });
   }
 
   handlePlayListName(evt){
-    const value = evt.target.value;
-    console.log('handling list name-->', value)
+    const playListName = text => {
+      if (text.length > 0 && text.length < 30){
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
     this.setState({
-      playlistName: value
+      playlistName: evt.target.value
     });
+    console.log('handling state', this.state.playlistName)
   }
 
   handleClearButton(evt) {
@@ -93,6 +101,7 @@ class MoodSelectorContainer extends Component {
 
   render (props) {
     // console.log('PROPS--->', this.props)
+    console.log('state passed plalist', this.state.playlistName);
     return (
       <div>
         <MoodSelector
@@ -103,17 +112,24 @@ class MoodSelectorContainer extends Component {
           />
         {this.props.currentMusic.length !== 0 ?
           <div>
-            <SaveButton
-              handleSave={this.handleSave}
-              handlePlayListName={this.handlePlayListName}
-              playlistName={this.state.playlistName}
-              />
-            <ClearButton
-              handleClearButton={this.handleClearButton}
-              />
-            <DialogBox
-              tracksAreSaved={this.props.savedMusic}
-              />
+            {this.state.playlistNameable ?
+              <div>
+                <SaveButton
+                  handleSave={this.handleSave}
+                  handlePlayListName={this.handlePlayListName}
+                  playlistName={this.state.playlistName}
+                  />
+              </div>
+              : null
+            }
+            <div>
+              <ClearButton
+                handleClearButton={this.handleClearButton}
+                />
+              <DialogBox
+                tracksAreSaved={this.props.savedMusic}
+                />
+            </div>
           </div>
         : null}
         <CurrentMusic

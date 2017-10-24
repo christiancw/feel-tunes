@@ -3,7 +3,12 @@ const router = require('express').Router();
 module.exports = router;
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const User = require('../db/models/user');
+const models = require('../db');
+const db = models.db;
+const Playlist = models.Playlist;
+const User = models.User;
+// const User = require('../db/models/user');
+// const Playlist = require('../db/models/playlist');
 //  requests authorization
 const authOptions = {
   url: 'https://accounts.spotify.com/api/token',
@@ -47,16 +52,14 @@ const genres = [
       'house',
 ];
 
-let recommendationsToken;
-
-router.get('/', (req, res, next) => {
+router.get('/spotify', (req, res, next) => {
   const currentMood = req.query.id;
   const genreSeed = emotionLookup[currentMood];
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
 
       // use the access token to access the Spotify Web API
-      recommendationsToken = body.access_token;
+      const recommendationsToken = body.access_token;
       let options = {
         url: `https://api.spotify.com/v1/recommendations?seed_genres=${genreSeed}&market=US`,
         headers: {
@@ -74,13 +77,13 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   // console.log('REQUEST FOR SAVE', req.body.params)
   const tracksList = req.body.params.tracks;
-  const userId = req.body.params.userId;
-  const token = req.body.params.accessToken;
+  const idNumber = req.body.params.idNumber;
+  const userId = req.body.params.userId || req.body.params.email;
   const refreshToken = req.body.params.refreshToken;
-  const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
+  // const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
   const stringDate = String(Date.now()).slice(9, 12);
   const defaultName = userId + stringDate;
-  const trackName = req.body.params.playlistName + stringDate || defaultName;
+  const playlistNameGiven = req.body.params.playlistName + stringDate || defaultName;
 
   const playlistAuthOptions = {
     url: authOptions.url,
@@ -96,47 +99,71 @@ router.post('/', (req, res, next) => {
 
   // console.log('authoptions--->', playlistAuthOptions)
 
-  request.post(playlistAuthOptions, function(error, response, body) {
-    // console.log('will try the request', response.body)
-    if (!error && response.statusCode === 200) {
+  if (req.body.params.userId){
+        request.post(playlistAuthOptions, function(error, response, body) {
+          // console.log('will try the request', response.body)
+          if (!error && response.statusCode === 200) {
+            const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
+            const playlistsToken = body.access_token;
+            let options = {
+              url: createPlaylistURI,
+              headers: {
+                'Authorization': 'Bearer ' + playlistsToken,
+                'Content-Type': 'application/json'
+              },
+              json: true,
+              body: {
+                name: playlistNameGiven,
+                public: false
+              }
+            };
+            request.post(options, function(createResponse, createBody) {
+              console.log('body--', createBody)
+              console.log('response--', createResponse)
+              if (!error){
+                const playListId = createBody.body.id;
+                const addTracksURI = `https://api.spotify.com/v1/users/${userId}/playlists/${playListId}/tracks`
+                options.url = addTracksURI;
+                options.body = {'uris': tracksList};
+                console.log('postTracksOptions', options)
+                request.post(options, function(addResponse, addBody) {
+                  res.send(addBody);
+                })
+              }
+              else {
+                res.status(500).send({error: 'playlist was created but failed to add tracks'})
+              }
+            })
+          }
+          else {
+            res.status(500).send({error: 'playlist could not be created'})
+          }
+        })
+      }
 
-      const playlistsToken = body.access_token;
-      let options = {
-        url: createPlaylistURI,
-        headers: {
-          'Authorization': 'Bearer ' + playlistsToken,
-          'Content-Type': 'application/json'
-        },
-        json: true,
-        body: {
-          name: trackName,
-          public: false
-        }
-      };
-      request.post(options, function(createResponse, createBody) {
-        console.log('body--', createBody)
-        console.log('response--', createResponse)
-        if (!error){
-          const playListId = createBody.body.id;
-          const addTracksURI = `https://api.spotify.com/v1/users/${userId}/playlists/${playListId}/tracks`
-          options.url = addTracksURI;
-          options.body = {'uris': tracksList};
-          console.log('postTracksOptions', options)
-          request.post(options, function(addResponse, addBody) {
-            res.send(addBody);
-          })
-        }
-        else {
-          res.status(500).send({error: 'playlist was created but failed to add tracks'})
-        }
-      })
-      }
-      else {
-        res.status(500).send({error: 'playlist could not be created'})
-      }
+  else {
+    console.log('REQ BODY', req.body)
+    return Playlist.create({
+        name: playlistNameGiven,
+        dateCreated: Date.now(),
+        tracks: tracksList,
+        userId: idNumber
     })
+    .then(createdPlaylist => {
+      res.status(201).json(createdPlaylist)
+    })
+  }
+
   })
 
+router.get('/userplaylist', (req, res, next) => {
+  Playlist.findAll({
+    where: {
+      userId: req.params.id
+    }
+  })
+  .then(playlists => res.json({playlists}))
+})
 
 
 //this worked:

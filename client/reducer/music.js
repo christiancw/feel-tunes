@@ -31,7 +31,7 @@ export const loadMusic = function(mood){
          }
        })
     .then(res => {
-      return axios.get('/api/playlist', {
+      return axios.get('/api/playlist/spotify', {
         params: {
           id: res.data
         }})
@@ -58,8 +58,10 @@ export const sendTracks = function(trackList, userId, name){
         tracks: extractTracks(trackList),
         playlistName: name,
         userId: userId.spotifyId,
+        email: userId.email,
         accessToken: userId.accessToken,
-        refreshToken: userId.refreshToken
+        refreshToken: userId.refreshToken,
+        idNumber: userId.id
       }
     })
     .then(dispatch(saveMusic()));

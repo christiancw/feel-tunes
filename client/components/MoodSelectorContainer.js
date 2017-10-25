@@ -4,6 +4,8 @@ import CurrentMusic from './CurrentMusic';
 import ClearButton from './ClearButton';
 import SaveButton from './SaveButton';
 import DialogBox from './DialogBox';
+import SlidersModal from './SlidersModal';
+import ToggleModal from './ToggleModal';
 import { loadMusic, sendTracks, clearTracks } from '../reducer/music';
 import { connect } from 'react-redux';
 
@@ -34,13 +36,17 @@ class MoodSelectorContainer extends Component {
       currentUser: this.props.currentUser,
       playListName: '',
       playlistButtondisabled: false,
-      playlistNameable: false
+      playlistNameable: false,
+      modalOpen: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleClearButton = this.handleClearButton.bind(this);
     this.handlePlayListName = this.handlePlayListName.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+
   }
 
   handleChange(evt) {
@@ -99,43 +105,67 @@ class MoodSelectorContainer extends Component {
     this.props.clearMusic();
   }
 
+  openModal(){
+    this.setState({
+      modalOpen: true
+    });
+  }
+
+  closeModal(){
+    this.setState({
+      modalOpen: false
+    });
+  }
+
   render (props) {
     // console.log('PROPS--->', this.props)
     console.log('state passed plalist', this.state.playlistName);
     return (
       <div>
-        <MoodSelector
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-          moodValue={this.state.moodValue}
-          buttonDisabled={this.state.buttonDisabled}
-          />
-        {this.props.currentMusic.length !== 0 ?
-          <div>
-            {this.state.playlistNameable ?
+        <div>
+          <MoodSelector
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+            moodValue={this.state.moodValue}
+            buttonDisabled={this.state.buttonDisabled}
+            />
+          {this.state.modalOpen ?
+            <SlidersModal
+              closeModal={this.closeModal} />
+            : null
+          }
+          {this.props.currentMusic.length !== 0 ?
+            <div>
+              {this.state.playlistNameable ?
+                <div>
+                  <SaveButton
+                    handleSave={this.handleSave}
+                    handlePlayListName={this.handlePlayListName}
+                    playlistName={this.state.playlistName}
+                    />
+                </div>
+                : null
+              }
               <div>
-                <SaveButton
-                  handleSave={this.handleSave}
-                  handlePlayListName={this.handlePlayListName}
-                  playlistName={this.state.playlistName}
+                <ClearButton
+                  handleClearButton={this.handleClearButton}
+                  />
+                <DialogBox
+                  tracksAreSaved={this.props.savedMusic}
                   />
               </div>
-              : null
-            }
-            <div>
-              <ClearButton
-                handleClearButton={this.handleClearButton}
-                />
-              <DialogBox
-                tracksAreSaved={this.props.savedMusic}
-                />
             </div>
+            : null}
+            <CurrentMusic
+              currentMusic={this.props.currentMusic}
+              fetchingMusic={this.props.fetchingMusic}
+              />
           </div>
-        : null}
-        <CurrentMusic
-          currentMusic={this.props.currentMusic}
-          fetchingMusic={this.props.fetchingMusic}
-          />
+          <div>
+            <ToggleModal
+              openModal={this.openModal}
+              />
+          </div>
       </div>
     );
   }

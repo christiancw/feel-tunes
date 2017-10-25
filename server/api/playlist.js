@@ -157,9 +157,10 @@ router.post('/', (req, res, next) => {
   })
 
 router.get('/userplaylist', (req, res, next) => {
+  console.log('reqparams', req.query.id)
   Playlist.findAll({
     where: {
-      userId: req.params.id
+      userId: req.query.id
     }
   })
   .then(playlists => res.json({playlists}))

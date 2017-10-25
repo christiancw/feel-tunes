@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getPlaylists } from '../reducer/savedplaylists';
+import Playlists from './Playlists';
 
-const UserPlaylists = props => {
+class UserPlaylists extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPlaylists: this.props.userLists
+    }
+  }
 
-  const { id } = props;
+  componentDidMount(){
+    console.log('propsonload', this.props)
+    console.log('STATE', this.state)
+    this.props.findPlaylists(this.props.id)
+  }
 
-  return (
-    <div>
-      <h4>Your Playlists</h4>
-      <ul>
-        {this.state.userLists.map(playlist => <li>`${playlist.name}`</li>)}
-      </ul>
-    </div>
-  );
-};
+  render (){
+    console.log('propsinrender', this.props)
+    return (
+      <div className="user-playlists">
+        <h4>Your Playlists</h4>
+        <Playlists
+          playlists={this.props.userLists}
+          />
+      </div>
+    )
+  }
+}
 
-const mapState = ({ user }) => ({
-  email: user.email,
-  id: user.id
-});
+const mapStateToProps = state => {
+  return {
+    email: state.user.email,
+    id: state.user.id,
+    userLists: state.playlist.userLists
+  }
+}
 
-const mapDispatch = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     findPlaylists: function(userId){
       const action = getPlaylists(userId);
@@ -30,4 +47,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(UserPlaylists);
+export default connect(mapStateToProps, mapDispatchToProps)(UserPlaylists);

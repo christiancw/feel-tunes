@@ -13,9 +13,9 @@ const initialPlaylistState = {
 
 export const getPlaylists = id => {
   return dispatch => {
-    axios.get('/userplaylist', {
+    axios.get('/api/playlist/userplaylist', {
       params: {
-        id
+        id: id
       }
     })
     .then(res => res.data)
@@ -24,13 +24,14 @@ export const getPlaylists = id => {
 };
 
 export default function (state = initialPlaylistState, action) {
+  console.log('ACTION-->', action.playlists)
 
   const newState = Object.assign({}, state);
 
   switch (action.type) {
 
     case RETRIEVE_USER_PLAYLISTS:
-      newState.userLists = action.playlists;
+      newState.userLists = action.playlists.playlists;
       break;
 
     case DELETE_PLAYLISTS:

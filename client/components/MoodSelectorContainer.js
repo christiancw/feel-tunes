@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    newMusic: function (selectedMood) {
-      const action = loadMusic(selectedMood)
+    newMusic: function (selectedMood, genres) {
+      const action = loadMusic(selectedMood, genres)
       dispatch(action);
     },
     saveMusic: function (tracks, user, name) {
@@ -46,7 +46,6 @@ class MoodSelectorContainer extends Component {
     this.handlePlayListName = this.handlePlayListName.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-
   }
 
   handleChange(evt) {
@@ -67,7 +66,7 @@ class MoodSelectorContainer extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.newMusic(this.state.moodValue);
+    this.props.newMusic(this.state.moodValue, this.props.genreValues);
     this.setState({
       moodValue: '',
       playlistNameable: true
@@ -131,7 +130,8 @@ class MoodSelectorContainer extends Component {
             />
           {this.state.modalOpen ?
             <SlidersModal
-              closeModal={this.closeModal} />
+              closeModal={this.closeModal}
+              />
             : null
           }
           {this.props.currentMusic.length !== 0 ?
@@ -176,7 +176,8 @@ const mapStateToProps = (state) => {
     currentMusic: state.music.tracks,
     fetchingMusic: state.music.isFetchingMusic,
     currentUser: state.user,
-    savedMusic: state.music.tracksAreSaved
+    savedMusic: state.music.tracksAreSaved,
+    genreValues: state.genre.genreValues
   };
 };
 

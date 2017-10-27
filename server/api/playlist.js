@@ -53,6 +53,7 @@ const genres = [
 ];
 
 router.get('/spotify', (req, res, next) => {
+  console.log('RECEVIED GENRES--> ', req.query.genres)
   const currentMood = req.query.id;
   const genreSeed = emotionLookup[currentMood];
   request.post(authOptions, function(error, response, body) {

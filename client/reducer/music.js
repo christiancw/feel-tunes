@@ -22,7 +22,7 @@ const CLEAR_TRACKS = 'CLEAR_TRACKS';
 
 export const clearTracks = () => ({type: CLEAR_TRACKS});
 
-export const loadMusic = function(mood){
+export const loadMusic = function(mood, genres){
     return dispatch => {
      dispatch(requestMusic(mood))
        return axios.get('/api/tones', {
@@ -33,7 +33,8 @@ export const loadMusic = function(mood){
     .then(res => {
       return axios.get('/api/playlist/spotify', {
         params: {
-          id: res.data
+          id: res.data,
+          genres
         }})
     })
     .then(playlist => {

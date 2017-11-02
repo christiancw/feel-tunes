@@ -10,10 +10,11 @@ const tone_analyzer = new ToneAnalyzerV3({
   password: password,
   version_date: '2016-05-19'
 });
-
+let tonesArr;
 function topFeeling(resp){
   const outerTonesArr = resp.document_tone.tone_categories;
   const innerTonesArr = outerTonesArr[0].tones;
+  tonesArr = innerTonesArr;
   let highScore = innerTonesArr[0];
   for (var i = 0; i < innerTonesArr.length; i++){
     if (innerTonesArr[i].score > highScore.score){
@@ -36,7 +37,11 @@ router.get('/', (req, res, next) => {
     }
     else {
       console.log(JSON.stringify(response, null, 2));
-      res.send(topFeeling(response));
+      const feelingArr = JSON.stringify(response, null, 2);
+      res.json({
+        topFeeling: topFeeling(response),
+        feelingArr: tonesArr
+      });
     }
   }
 );

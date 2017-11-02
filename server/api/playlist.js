@@ -7,6 +7,7 @@ const models = require('../db');
 const db = models.db;
 const Playlist = models.Playlist;
 const User = models.User;
+const genreParser = require('../utils');
 // const User = require('../db/models/user');
 // const Playlist = require('../db/models/playlist');
 //  requests authorization
@@ -21,14 +22,14 @@ const authOptions = {
   json: true
 };
 
-//setting artists, tracks, generes as seeds for the recommendation request
+//setting artists, tracks, genres as seeds for the recommendation request
 
 // const currentMood = 'tired';
-const happyGenres = ['chicago-house', 'edm', 'funk', 'latin', 'pop'].join('&');
-const sadGenres = ['acoustic', 'folk', 'sad', 'soul', 'grunge'].join('&');
-const disgustGenres = ['indie', 'dubstep', 'goth', 'punk', 'opera'].join('&');
-const fearGenres = ['alternative', 'deep-house', 'trance', 'jazz', 'classical'].join('&');
-const angerGenres = ['blues', 'hip-hop', 'opera', 'alt-rock', 'metal'].join('&');
+const happyGenres = ['chicago-house', 'edm', 'funk', 'latin', 'pop'];
+const sadGenres = ['acoustic', 'folk', 'sad', 'soul', 'grunge'];
+const disgustGenres = ['indie', 'dubstep', 'goth', 'punk', 'opera'];
+const fearGenres = ['alternative', 'deep-house', 'trance', 'jazz', 'classical'];
+const angerGenres = ['blues', 'hip-hop', 'opera', 'alt-rock', 'metal'];
 
 const emotionLookup = {
   Joy: happyGenres,
@@ -36,6 +37,17 @@ const emotionLookup = {
   Disgust: disgustGenres,
   Fear: fearGenres,
   Anger: angerGenres
+};
+
+//take the selected genre array, add any genres from the addArray, delete any from the removeArray
+
+const genreSubstitute = (selectedGenreArray, genresToAddOrRemove) => {
+  const withRemoved = selectedGenreArray.filter(genre => {
+    return !genresToAddOrRemove.removeGenres.includes(genre);
+  });
+  const withAdded = withRemoved.concat(genresToAddOrRemove.addGenres).join('&');
+  // console.log('anything here?', withAdded);
+  return withAdded;
 };
 
 const genres = [
@@ -52,23 +64,124 @@ const genres = [
       'house',
 ];
 
+//Joy --> high energy, high danceability, loud, Major key, high valence
+//Sadness ---> low energy, no danceability, quiet, minor key, medium valence
+//Disgust --> medium energy, no danceability, quiet, minor key, low valence
+//Fear --> medium-high energy, no danceability, louder, minor key, low valence
+//Anger --> high energy, no danceability, loud, either key, low-medium valence
+
+function moodMultiplier(attribute){
+  //return a float that can be multiplied with a mood number (btwn 0 and 1) to set a track attribute
+  let multiplier;
+  switch (attribute){
+    case 'energyLevel':
+    multiplier = 0.5;
+    break;
+
+    case 'danceability':
+    multiplier = 0.5;
+    break;
+
+    case 'loudness':
+    multiplier = -60;
+    break;
+
+    case 'mode':
+    multiplier = 0.5;
+    break;
+
+    case 'valence':
+    multiplier = 0.5;
+    break;
+
+    default:
+    multiplier = 1;
+
+  }
+  return multiplier;
+}
+
+
+function moodMapper(moodObjectArr, attributesArr){
+  const settingsObject = {'energyLevel': 0, 'danceability': 0, 'loudness': 0, 'mode': 0, 'valence': 0};
+  moodObjectArr.forEach(mood => {
+    attributesArr.forEach(attribute => {
+      settingsObject[attribute] += moodMultiplier(attribute) * mood.score;
+    })
+  })
+  return settingsObject;
+}
+
+function deString(objArr){
+  const unStrungArr = objArr.map(obj => {
+    return JSON.parse(obj)
+  })
+  return unStrungArr;
+}
+
+const moodSettings = {
+   energyLevel: '0.6',
+   danceability: '0.4',
+   loudness: '-50.0',
+   mode: '1',
+   valence: '0.5'
+}
+
+const attributes = ['energyLevel', 'danceability', 'loudness', 'mode', 'valence'];
+
+// const energyLevel = '0.6';
+// const danceability = '0.4';
+// const loudness = '-50.0';
+// const mode = '1';
+// const valence = '0.5';
+
+// danceability
+// energy
+// loudness
+// mode
+// valence
+
 router.get('/spotify', (req, res, next) => {
-  console.log('RECEVIED GENRES--> ', req.query.genres)
+
+  console.log('RECEIVED TONE DATA--> ', req.query.feelingArr);
+  const feelingArr = deString(req.query.feelingArr);
+  console.log('type of feeling object --> ', typeof feelingArr);
+  console.log(moodMapper(feelingArr, attributes));
+  const moodMap = moodMapper(feelingArr, attributes);
+
+  const energyLevel = String(moodMap.energyLevel);
+  const danceability = String(moodMap.danceability);
+  const loudness = String(moodMap.loudness);
+  const mode = String(Math.floor(moodMap.mode));
+  const valence = String(moodMap.valence);
+  // console.log('RECEVIED GENRES--> ', req.query.genres)
+  const genreObject = JSON.parse(req.query.genres);
+  // console.log(typeof req.query.genres)
+  // console.log('genreobject-->', JSON.parse(genreObject));
+  const parsedGenres = genreParser(genreObject);
   const currentMood = req.query.id;
-  const genreSeed = emotionLookup[currentMood];
+  const genreLookedup = emotionLookup[currentMood];
+  const genreSeed = genreSubstitute(genreLookedup, parsedGenres);
+  const baseURL = 'https://api.spotify.com/v1/recommendations?seed_genres=';
+  const minEnergy = 'min_energy=' + energyLevel;
+  const minDanceability = 'min_danceability=' + danceability;
+  const minLoudness = 'min_loudness=' + loudness;
+  const setValence = 'min_valence=' + valence;
+  const minMode = 'min_mode=' + mode;
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
-
+      // url: baseURL + genreSeed + '&' + minEnergy + '&' + minDanceability + '&' + minLoudness + '&' + minMode + '&' + setValence + '&market=US',
       // use the access token to access the Spotify Web API
       const recommendationsToken = body.access_token;
       let options = {
-        url: `https://api.spotify.com/v1/recommendations?seed_genres=${genreSeed}&market=US`,
+        url: baseURL + genreSeed + '&' + minEnergy + '&' + minDanceability + '&' + minLoudness + '&' + minMode + '&' + setValence + '&market=US',
         headers: {
           'Authorization': 'Bearer ' + recommendationsToken
         },
         json: true
       };
       request.get(options, function(response, body) {
+        // console.log('responsebody ---> ', body);
         res.send(body);
       });
     }
@@ -166,10 +279,3 @@ router.get('/userplaylist', (req, res, next) => {
   })
   .then(playlists => res.json({playlists}))
 })
-
-
-//this worked:
-// curl -X POST "https://api.spotify.com/v1/users/cw3n71n9/playlists" -H "Authorization: Bearer BQC4qDBNaszW9oZPwTybwij2f5kj7dzXTQ6bqtONQnI62iTscaIxcCp6AfEBRU2gP5Z2v0CDsGAu7Bm1Q6xb-cTYUC7DIAYJVEAOgQuIMFzKo4PK0RL_ukFwqxiztWB8TkftmbWfw0ajIhWmsPiBllJJpHB4BLT9t2XwOpzfxSYuCgB7wkA7jE7OkeqcJq5JI5G1AP1JSryY" -H "Content-Type: application/json" --data "{\"name\":\"A New Playlist\", \"public\":false}"
-
-
-// curl -X POST "https://accounts.spotify.com/api/token" -H "Authorization: Basic NmQ2OThmMDRkNTcxNDk3MGI2NmMyZGYyYTNmZTJmM2Q6MmE1NjhmZGE4YWYyNDNhNDlmNTJmZDZkZWVjMjE4ZDM=" -d grant_type=refresh_token -d refresh_token=AQBvDi7KU6MOTegTnGshastsOAnQKyc2ZzmUt-wygib8zh-4b22tHd_nJZZE2hvB4BG9KcOJsMKhHg8j_82qq7Yx_54QJ3lTTag5VCEmu1U6eJrKkNV_TeYPrrLZKIWBfSw

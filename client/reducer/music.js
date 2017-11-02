@@ -30,12 +30,16 @@ export const loadMusic = function(mood, genres){
            text: mood
          }
        })
-    .then(res => {
+    .then(res => res.data)
+    .then(data => {
+      console.log('DATAAAAA--->', data)
       return axios.get('/api/playlist/spotify', {
         params: {
-          id: res.data,
+          id: data.topFeeling,
+          feelingArr: data.feelingArr,
           genres
-        }})
+        }
+      })
     })
     .then(playlist => {
       dispatch(getMusic(playlist.data.body.tracks));

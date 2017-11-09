@@ -27,6 +27,7 @@ function topFeeling(resp){
 
 router.get('/', (req, res, next) => {
   const inputText = req.query.text;
+  console.log('INPUT TEXT', inputText)
   const params = {
     text: inputText,
     tones: 'emotion'
@@ -36,8 +37,10 @@ router.get('/', (req, res, next) => {
       console.log('error:', error);
     }
     else {
+      console.log('response code--->', response.statusCode);
       console.log(JSON.stringify(response, null, 2));
       const feelingArr = JSON.stringify(response, null, 2);
+      console.log('TONES--->', tonesArr)
       res.json({
         topFeeling: topFeeling(response),
         feelingArr: tonesArr

@@ -12,13 +12,11 @@ const handleSignupButton = props.handleSignupButton;
       {
         loggedIn ?
         <div>
-          <div className="nav-item nav-link">
+          <div className="nav-item nav-link buttons-nav">
             <button
               onClick={handleClick}>
               Log Out
             </button>
-          </div>
-          <div className="nav-item nav-link">
             <button>
               <Link to="/userplaylists">My Playlists</Link>
             </button>

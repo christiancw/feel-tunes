@@ -15,7 +15,7 @@ export default function MoodSelector (props) {
           className="col-12">
           {
             props.buttonDisabled ?
-            <div className="col-12 warning-box">(At least three words)</div>
+            <div className="col-12 warning-box">(At least five words, please)</div>
             : null
           }
           <div className="row">

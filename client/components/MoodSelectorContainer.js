@@ -51,7 +51,7 @@ class MoodSelectorContainer extends Component {
   handleChange(evt) {
     const value = evt.target.value;
     const checkInput = inputString => {
-      if (inputString.split(' ').length < 3 ){
+      if (inputString.split(' ').length <= 5 ){
         return true;
       }
       else {
@@ -72,7 +72,7 @@ class MoodSelectorContainer extends Component {
       moodValue: '',
       playlistNameable: true
     });
-    setTimeout(1500, window.scrollTo(0, 1400));
+    // setTimeout(1500, window.scrollTo(0, 1400));
   }
 
   handleSave(evt) {

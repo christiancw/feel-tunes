@@ -60,7 +60,7 @@ export const sendTracks = function(trackList, userId, name){
   return dispatch => {
     return axios.post('/api/playlist', {
       params: {
-        tracks: extractTracks(trackList),
+        tracks: trackList,
         playlistName: name,
         userId: userId.spotifyId,
         email: userId.email,

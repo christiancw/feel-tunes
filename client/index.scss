@@ -1,75 +1,17 @@
+html {
+  height: 100%;
+}
 
   body {
-        background-image: url(StockSnap_DIKNMVOV9M.jpg);
         background-size: cover;
         width: 100%;
         margin: 0;
         font-family: "Helvetica Neue";
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    label {
-      display: block;
-    }
-
-    nav a {
-      display: inline-block;
-      margin: 1em;
-    }
-
-    form div {
-      margin: 1em;
-      display: inline-block;
-      width: 70%;
-      color: white;
-    }
-
-    fieldset {
-      border-color: transparent;
-      background-color: transparent;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px 20px;
-      border: none;
-      border-bottom: 2px solid grey;
-      background-color: white;
-      outline: none;
-      font-size: 24px;
-      color: black;
-    }
-
-    .form-button {
-      width: 33%;
-      button {
-        background-color: #1DB954;
-      }
-    }
-
-    .spotify-auth {
-      background-color: #1DB954;
-    }
-
-    input:focus {
-      border-bottom: 3px solid #555;
-    }
-
-    button {
-      position: relative;
-      background-color: transparent;
-      color: white;
-      border: 2px solid black;
-      font-size: 16px;
-      padding: 12px 28px;
-      border-radius: 10px;
+  button {
+      font-size: 14px;
+      padding: 8px 15px;
+      border-radius: 7px;
       cursor: pointer;
     }
 
@@ -78,67 +20,172 @@
       cursor: not-allowed;
     }
 
-    .warning-box {
-      color: black;
-      width: 33%;
-      text-align: left;
+    a {
+      text-decoration: none !important;
+      color: inherit;
     }
 
-    button:hover {
-      background-color: white;
+    #main-nav {
+      width: 100%;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .buttons-nav {
+      display: flex;
+      justify-content: space-between;
+      button {
+        margin-left: 5px;
+      }
+      button:hover {
+        background-color: #c8e6c9;
+        color: white;
+      }
+    }
+
+    .auth-modal {
+      margin-top: 2%;
+      border: 2px solid #494949;
+      background-color: #757575;
+      input {
+        width: 90%;
+        margin: 2%;
+      }
+      button {
+        margin: 1%;
+      }
+    }
+
+    .modal-label {
+      left: 50%;
+      text-align: center;
+    }
+    .close:hover,
+    .close:focus {
       color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .music-selector {
+      margin-top: 2%;
+      border: 2px solid black;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 500px;
+      background-image: url("StockSnap_9GF1QSWBPE.jpg");
+      background-position: top center;
+      background-attachment: fixed;
+      background-size: 100% 800px;
+      background-repeat: no-repeat;
+      .row {
+        width: 100%;
+      }
+    }
+
+    .form-holder {
+      width: 100%;
+      height: 300px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: center;
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .form-instructions {
+      font-size: 14px;
+      color: white;
+    }
+
+    .main-form {
+      display: flex;
+      input {
+        width: 100%;
+        padding: 10px 20px;
+        border: none;
+        border-bottom: 2px solid grey;
+        background-color: white;
+        outline: none;
+        font-size: 24px;
+        color: black;
+      }
+      input:focus {
+      border-bottom: 3px solid #555;
+      width: 100%;
+      }
+      fieldset {
+        display: flex;
+      }
+    }
+
+    .toggle-modal {
+      justify-content: center;
+      align-items: center;
+      height: 8%;
+      margin-top: 10px;
+    }
+
+    .tracks-console {
+      border: 2px solid blue;
+      display: flex;
+      background-color: #78909c;
+      justify-content: space-between;
+    }
+
+    .clear-button {
+      display: inline-block;
+      button {
+        float: right;
+      }
+    }
+
+    .save-button {
+      display: flex;
+      justify-content: space-between;
+      input {
+        width: 70%;
+      }
+    }
+
+    .bottom {
+      border: 2px solid green;
+      margin-top: 10%;
+    }
+
+    .warning-box {
+      color: white;
+      width: 100%;
+      text-align: left;
     }
 
     .track-response {
       background-color: #191414;
-    }
-
-    @media (max-width: 960px) {
-      li.col-left {
-        float: none;
-        width: 100%;
-      }
-      li.col-right {
-        float: none;
-        width: 100%;
-      }
-      li.col-middle {
-        float: none;
-        width: 100%;
-      }
+      width: 100%;
+      margin: 0px;
     }
 
     .tracks-area {
-      border-top: 2px solid grey;
-      margin: 30px;
-      padding: 25px;
-      font-weight: bold;
-      left: 10%;
-      button {
-        background-color: #1DB954;
-        margin: 15px;
-      }
-      button:hover {
-        background-color: white;
-        color: black;
-        cursor: pointer;
-      }
+
     }
 
-    .nav {
+    .playlist-box {
+      justify-content: space-between;
       background-color: #191414;
-      padding: auto;
-      display: inline-block;
-      width: 100%;
-      button {
-        float: right;
-        margin: auto;
-        padding: auto
-      }
+    }
+
+    .track-box {
+      margin: 15px 10px;
     }
 
     .mainClass {
       background-color: white;
+      height: 100vh;
+      padding-left: 0px;
+      padding-right: 0px;
     }
 
     .welcome {
@@ -159,34 +206,6 @@
         display: flex;
         width: 85%;
       }
-    }
-
-    ul {
-      list-style: none;
-      width: auto;
-    }
-
-    li {
-      width: 33%;
-      list-style-type: none;
-      display: block;
-    }
-
-    li.col-left {
-      float: left;
-    }
-
-    li.col-middle {
-      float: left;
-    }
-
-    li.col-right {
-      float: right;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
     }
 
     .playlist-name {
@@ -215,49 +234,55 @@
       margin: 15% auto; /* 15% from the top and centered */
       padding: 20px;
       border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
+      width: 60%; /* Could be more or less, depending on screen size */
+    }
+
+    .genre-sliders {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .close {
       color: #aaa;
-      float: right;
       font-size: 28px;
       font-weight: bold;
+      align-self: flex-end;
     }
 
     #slidecontainer {
-    width: 50%; /* Width of the outside container */
-}
+    width: 85%; /* Width of the outside container */
+    }
 
     .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 5px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
+      -webkit-appearance: none;
+      width: 100%;
+      height: 5px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
 
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #4CAF50;
-    cursor: pointer;
-}
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+      }
 
-.slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #4CAF50;
-    cursor: pointer;
-}
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
 
     .loader {
       border: 16px solid #f3f3f3; /* Light grey */
@@ -272,14 +297,6 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
-    }
-
-    .clear-button {
-      background-color: black;
-    }
-
-    .save-button {
-      background-color: black;
     }
 
   }

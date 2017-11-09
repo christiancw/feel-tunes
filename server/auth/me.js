@@ -20,9 +20,6 @@ router.post('/', function (req, res, next) {
         if (err) return next(err);
         res.json(user);
       });
-      // // before, without Passport:
-      // req.session.userId = user.id;
-      // res.json(user);
     } else {
       res.sendStatus(401); // this user already exists, you cannot sign up
     }

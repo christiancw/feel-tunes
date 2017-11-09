@@ -7,9 +7,12 @@ const models = require('../db');
 const db = models.db;
 const Playlist = models.Playlist;
 const User = models.User;
-const genreParser = require('../utils');
-// const User = require('../db/models/user');
-// const Playlist = require('../db/models/playlist');
+const utils = require('../utils');
+const genreParser = utils.genreParser;
+const genreSubstitute = utils.genreSubstitute;
+const moodMapper = utils.moodMapper;
+const deString = utils.deString;
+
 //  requests authorization
 const authOptions = {
   url: 'https://accounts.spotify.com/api/token',
@@ -39,114 +42,10 @@ const emotionLookup = {
   Anger: angerGenres
 };
 
-//take the selected genre array, add any genres from the addArray, delete any from the removeArray
-
-const genreSubstitute = (selectedGenreArray, genresToAddOrRemove) => {
-  const withRemoved = selectedGenreArray.filter(genre => {
-    return !genresToAddOrRemove.removeGenres.includes(genre);
-  });
-  const withAdded = withRemoved.concat(genresToAddOrRemove.addGenres).join('&');
-  // console.log('anything here?', withAdded);
-  return withAdded;
-};
-
-const genres = [
-      'alt_rock',
-      'bluegrass',
-      'blues',
-      'classical',
-      'country',
-      'dance',
-      'electro',
-      'hard_rock',
-      'heavy_metal',
-      'hip_hop',
-      'house',
-];
-
-//Joy --> high energy, high danceability, loud, Major key, high valence
-//Sadness ---> low energy, no danceability, quiet, minor key, medium valence
-//Disgust --> medium energy, no danceability, quiet, minor key, low valence
-//Fear --> medium-high energy, no danceability, louder, minor key, low valence
-//Anger --> high energy, no danceability, loud, either key, low-medium valence
-
-function moodMultiplier(attribute){
-  //return a float that can be multiplied with a mood number (btwn 0 and 1) to set a track attribute
-  let multiplier;
-  switch (attribute){
-    case 'energyLevel':
-    multiplier = 0.5;
-    break;
-
-    case 'danceability':
-    multiplier = 0.5;
-    break;
-
-    case 'loudness':
-    multiplier = -60;
-    break;
-
-    case 'mode':
-    multiplier = 0.5;
-    break;
-
-    case 'valence':
-    multiplier = 0.5;
-    break;
-
-    default:
-    multiplier = 1;
-
-  }
-  return multiplier;
-}
-
-
-function moodMapper(moodObjectArr, attributesArr){
-  const settingsObject = {'energyLevel': 0, 'danceability': 0, 'loudness': 0, 'mode': 0, 'valence': 0};
-  moodObjectArr.forEach(mood => {
-    attributesArr.forEach(attribute => {
-      settingsObject[attribute] += moodMultiplier(attribute) * mood.score;
-    })
-  })
-  return settingsObject;
-}
-
-function deString(objArr){
-  const unStrungArr = objArr.map(obj => {
-    return JSON.parse(obj)
-  })
-  return unStrungArr;
-}
-
-const moodSettings = {
-   energyLevel: '0.6',
-   danceability: '0.4',
-   loudness: '-50.0',
-   mode: '1',
-   valence: '0.5'
-}
-
 const attributes = ['energyLevel', 'danceability', 'loudness', 'mode', 'valence'];
 
-// const energyLevel = '0.6';
-// const danceability = '0.4';
-// const loudness = '-50.0';
-// const mode = '1';
-// const valence = '0.5';
-
-// danceability
-// energy
-// loudness
-// mode
-// valence
-
 router.get('/spotify', (req, res, next) => {
-
-  console.log('RECEIVED TONE DATA--> ', req.query.feelingArr);
   const feelingArr = deString(req.query.feelingArr);
-  console.log('type of feeling object --> ', typeof feelingArr);
-  console.log(moodMapper(feelingArr, attributes));
   const moodMap = moodMapper(feelingArr, attributes);
 
   const energyLevel = String(moodMap.energyLevel);
@@ -169,9 +68,7 @@ router.get('/spotify', (req, res, next) => {
   const setValence = 'min_valence=' + valence;
   const minMode = 'min_mode=' + mode;
   request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      // url: baseURL + genreSeed + '&' + minEnergy + '&' + minDanceability + '&' + minLoudness + '&' + minMode + '&' + setValence + '&market=US',
-      // use the access token to access the Spotify Web API
+    if (!error && response.statusCode === 200) {      // use the access token to access the Spotify Web API
       const recommendationsToken = body.access_token;
       let options = {
         url: baseURL + genreSeed + '&' + minEnergy + '&' + minDanceability + '&' + minLoudness + '&' + minMode + '&' + setValence + '&market=US',

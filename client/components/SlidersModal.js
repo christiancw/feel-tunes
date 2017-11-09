@@ -16,7 +16,7 @@ class SlidersModal extends Component {
     return (
       <div className="slider-modal-box">
         Here is a modal.
-        <div className="modal-content">
+        <div className="genre-sliders modal-content">
           <span
             className="close"
             onClick={this.toggleModal}

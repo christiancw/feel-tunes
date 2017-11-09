@@ -7,29 +7,23 @@ const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props;
 
   return (
-    <div>
-      <div>
-        <button>
-          <Link to="/welcome">Back</Link>
-        </button>
-      </div>
+    <div className="auth-modal">
+      <div className="modal-label">{displayName}</div>
       <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email"><small>Email</small></label>
-          <input name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password"><small>Password</small></label>
-          <input name="password" type="password" />
+        <div className="row">
+          <div className="col">
+            <input name="email" type="text" placeholder="Email" />
+          </div>
+          <div className="col">
+            <input name="password" type="password" placeholder="Password" />
+          </div>
         </div>
         <div>
           <button type="submit">{ displayName }</button>
         </div>
         { error &&  <div> { error.response.data } </div> }
       </form>
-      <div>
-        <button><a href="/auth/spotify">{ displayName } with Spotify</a></button>
-      </div>
+      <button><a href="/auth/spotify">{ displayName } with Spotify</a></button>
     </div>
   );
 };

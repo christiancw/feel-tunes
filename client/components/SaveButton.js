@@ -8,9 +8,9 @@ export default function SaveButton (props) {
   console.log('savebutton props-->', props)
 
   return (
-    <div className="save-button">
       <form
-        onSubmit={handleSave}>
+        onSubmit={handleSave}
+        className="save-button col-10">
         <input
           placeholder="Give your playlist a name"
           onChange={handlePlayListName}
@@ -23,6 +23,5 @@ export default function SaveButton (props) {
           Save Playlist
         </button>
       </form>
-    </div>
   );
 }

@@ -34,7 +34,6 @@ const initialGenreValues = {
 // const initialGenreValues = Object.assign(genresWithValues, genreSelected);
 
 export default function (state = initialGenreValues, action) {
-  console.log('GENREACTION', action)
 
   const newState = Object.assign({}, state);
 

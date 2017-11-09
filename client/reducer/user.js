@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import { clearForm } from './authForm';
 
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
@@ -20,7 +21,7 @@ export const auth = (email, password, method) =>
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
         dispatch(getUser(res.data));
-        browserHistory.push('/home');
+        dispatch(clearForm());
       })
       .catch(error =>
         dispatch(getUser({ error })));
@@ -30,7 +31,6 @@ export const logout = () =>
     axios.post('/auth/logout')
       .then(res => {
         dispatch(removeUser());
-        browserHistory.push('/login');
       })
       .catch(err => (err));
 

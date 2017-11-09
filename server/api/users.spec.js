@@ -1,8 +1,11 @@
 const { expect } = require('chai');
 const request = require('supertest');
-const db = require('../db');
+const models = require('../db');
+const db = models.db;
 const app = require('../index');
-const User = db.model('user');
+
+// const models = require('../db');
+const User = models.User;
 
 describe('User routes', () => {
 

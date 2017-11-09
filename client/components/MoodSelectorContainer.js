@@ -65,12 +65,14 @@ class MoodSelectorContainer extends Component {
   }
 
   handleSubmit(evt) {
+    // console.log('THE EVENT-->', evt.target)
     evt.preventDefault();
     this.props.newMusic(this.state.moodValue, this.props.genreValues);
     this.setState({
       moodValue: '',
       playlistNameable: true
     });
+    setTimeout(1500, window.scrollTo(0, 1400));
   }
 
   handleSave(evt) {
@@ -117,43 +119,44 @@ class MoodSelectorContainer extends Component {
   }
 
   render (props) {
-    // console.log('PROPS--->', this.props)
-    console.log('state passed plalist', this.state.playlistName);
     return (
-      <div>
-        <div>
-          <MoodSelector
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-            moodValue={this.state.moodValue}
-            buttonDisabled={this.state.buttonDisabled}
-            />
-          {this.state.modalOpen ?
-            <SlidersModal
-              closeModal={this.closeModal}
+      <div className="container-fluid">
+        <div className="container-fluid music-selector">
+          <div className="form-holder">
+            <div className="form-instructions">Write down some feelings, get music to match!</div>
+            <MoodSelector
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              moodValue={this.state.moodValue}
+              buttonDisabled={this.state.buttonDisabled}
               />
-            : null
-          }
+            {this.state.modalOpen ?
+              <SlidersModal
+                closeModal={this.closeModal}
+                />
+              : null
+            }
+            <ToggleModal
+              openModal={this.openModal} />
+          </div>
+          </div>
+        <div className="container bottom">
           {this.props.currentMusic.length !== 0 ?
-            <div>
+            <div className="row tracks-console">
               {this.state.playlistNameable ?
-                <div>
                   <SaveButton
                     handleSave={this.handleSave}
                     handlePlayListName={this.handlePlayListName}
                     playlistName={this.state.playlistName}
                     />
-                </div>
                 : null
               }
-              <div>
                 <ClearButton
                   handleClearButton={this.handleClearButton}
                   />
                 <DialogBox
                   tracksAreSaved={this.props.savedMusic}
                   />
-              </div>
             </div>
             : null}
             <CurrentMusic
@@ -161,12 +164,7 @@ class MoodSelectorContainer extends Component {
               fetchingMusic={this.props.fetchingMusic}
               />
           </div>
-          <div>
-            <ToggleModal
-              openModal={this.openModal}
-              />
-          </div>
-      </div>
+        </div>
     );
   }
 }

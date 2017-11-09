@@ -1,4 +1,5 @@
 import React from 'react';
+import ToggleModal from './ToggleModal';
 
 export default function MoodSelector (props) {
   const handleChange = props.handleChange;
@@ -8,31 +9,34 @@ export default function MoodSelector (props) {
 
   return (
     <form
-      onSubmit={handleSubmit}
-      >
-      <fieldset>
-        <div className="feelings-input">
-          <input
-            placeholder="I feel..."
-            onChange={handleChange}
-            type="text"
-            value={moodValue}
-            />
-          <div className="form-button">
-          <button
-            type="submit"
-            disabled={buttonDisabled}
-            >
-            Make a Playlist!
-          </button>
-        </div>
+      className="row main-form"
+      onSubmit={handleSubmit}>
+        <fieldset
+          className="col-12">
           {
             props.buttonDisabled ?
-            <div className="warning-box">(At least three words, please)</div>
-              : null
-            }
-        </div>
-      </fieldset>
+            <div className="col-12 warning-box">(At least three words)</div>
+            : null
+          }
+          <div className="row">
+            <input
+              placeholder="I feel..."
+              onChange={handleChange}
+              type="text"
+              value={moodValue}
+              />
+          </div>
+          <div className="row">
+            <button
+              type="submit"
+              disabled={buttonDisabled}
+              name="submittingbutton"
+              className="col col-sm-3"
+              >
+              Make a Playlist!
+            </button>
+          </div>
+        </fieldset>
     </form>
   );
 }

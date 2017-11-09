@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getPlaylists } from '../reducer/savedplaylists';
 import Playlists from './Playlists';
+import Navbar from './Navbar';
 
 class UserPlaylists extends Component {
   constructor(props) {
@@ -20,11 +21,14 @@ class UserPlaylists extends Component {
   render (){
     console.log('propsinrender', this.props)
     return (
-      <div className="user-playlists">
-        <h4>Your Playlists</h4>
-        <Playlists
-          playlists={this.props.userLists}
-          />
+      <div>
+        <Navbar />
+        <div className="user-playlists">
+          <h4>Your Playlists</h4>
+          <Playlists
+            playlists={this.props.userLists}
+            />
+        </div>
       </div>
     )
   }

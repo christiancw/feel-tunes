@@ -10,8 +10,8 @@ class Slider extends Component {
     super(props)
     console.log('slider props-->', this.props)
     this.state = {
-      currentGenre: this.props.currentGenre,
-      sliderValue: 0
+      currentGenre: props.currentGenre,
+      sliderValue: props.sliderValue
     }
     this.onSlide = this.onSlide.bind(this);
     this.onSelect = this.onSelect.bind(this);
@@ -44,13 +44,12 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-// const mapStateToProps = state => {
-//   console.log('mapstate', state)
-//   const currentGenre = state.genre.currentGenre;
-//   return {
-//     currentGenre: currentGenre,
-//     sliderValue: state.genre[currentGenre]
-//   }
-// }
+const mapStateToProps = state => {
+  console.log('mapstate', state)
+  const currentGenre = state.genre.currentGenre;
+  return {
+    sliderValue: state.genre.genreValues[currentGenre]
+  }
+}
 
-export default connect(null, mapDispatchToProps)(Slider);
+export default connect(mapStateToProps, mapDispatchToProps)(Slider);

@@ -5,42 +5,36 @@ import { Link } from 'react-router';
 export default function Navbar (props) {
 const loggedIn = props.loggedIn;
 const handleClick = props.handleClick;
+const handleLoginButton = props.handleLoginButton;
+const handleSignupButton = props.handleSignupButton;
   return (
-    <div className="nav">
-      <div>
-        <button>
-          <Link to="/welcome">Home</Link>
-        </button>
-      </div>
+    <nav className="navbar sticky-top navbar-dark bg-dark" id="main-nav">
       {
         loggedIn ?
         <div>
-          <div>
+          <div className="nav-item nav-link">
             <button
               onClick={handleClick}>
               Log Out
             </button>
           </div>
-          <div>
+          <div className="nav-item nav-link">
             <button>
               <Link to="/userplaylists">My Playlists</Link>
             </button>
           </div>
         </div>
         :
-        <div>
-          <div>
-            <button>
-              <Link to="/login">Log In</Link>
+        <div  className="nav-item nav-link buttons-nav">
+            <button
+              onClick={handleLoginButton}>Log In
             </button>
-          </div>
-          <div>
-            <button>
-              <Link to="/signup">Sign Up</Link>
+            <button
+              onClick={handleSignupButton}>
+              Sign Up
             </button>
-          </div>
         </div>
       }
-    </div>
+    </nav>
   );
 }

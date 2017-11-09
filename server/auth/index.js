@@ -32,7 +32,3 @@ module.exports = router
     req.logout();
     res.redirect('/');
   })
-  // .get('/me', (req, res) => {
-  //   ('GETTING ME', req.user)
-  //   res.json(req.user);
-  // })

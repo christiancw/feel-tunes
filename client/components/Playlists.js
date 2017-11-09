@@ -6,20 +6,25 @@ export default function Playlists (props) {
   console.log('type', Array.isArray(playlists))
 
   return (
-    <div>
-      These are playlists.
+    <div className="container-fluid">
+      My playlists
       { playlists.length > 0 ?
-        <ul>
+        <div className="container-fluid">
             {playlists.map((playlist) => {
               return (
-                <li
+                <div
+                  className="row"
                   key={playlist.id}
                   >
-                  {playlist.name}
-                </li>
+                  <div className="col">
+                    {playlist.name}
+                  </div>
+                  <div className="col">{playlist.updatedAt}</div>
+                  <div className="col">{playlist.tracks}</div>
+                </div>
               );
             })}
-        </ul>
+        </div>
     : null}
     </div>
   );

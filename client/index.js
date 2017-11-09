@@ -17,7 +17,7 @@ const requireLogin = (nextRouterState, replace, next) =>
   whoAmI
     .then(() => {
       const { user } = store.getState();
-      if (!user.id) replace('/login');
+      if (!user.id) replace('/app');
       next();
     })
     .catch(err => (err));
@@ -26,10 +26,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/">
-          <IndexRedirect to="welcome" />
-          <Route path="welcome" component={Welcome} />
-          <Route path="login" component={Login} />
-          <Route path="signup" component={Signup} />
+          <IndexRedirect to="app" />
           <Route path="userplaylists" component={UserPlaylists} />
           <Route path="app" component={Main} />
           <Route path="auth/spotify/callback/:accessToken" component={MoodSelectorContainer} />

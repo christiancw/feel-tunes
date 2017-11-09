@@ -11,9 +11,6 @@ const spotifyConfig = {
 
 passport.use(new SpotifyStrategy(spotifyConfig,
   function verficationCallback (accessToken, refreshToken, profile, done) {
-    console.log('PROFILE-->', profile);
-    console.log('accessToken--->', accessToken);
-    console.log('refreshToken-->', refreshToken);
     User.findOrCreate({
       where: {
         spotifyId: profile.id,
@@ -44,20 +41,11 @@ router.get('/',
   });
 
 router.get('/callback',
-  passport.authenticate('spotify', { failureRedirect: '/login' }),
+  passport.authenticate('spotify', { failureRedirect: '/app' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/app');
   });
-
-  // app.get('/login', function(req, res) {
-  // var scopes = 'user-read-private user-read-email';
-  // res.redirect('https://accounts.spotify.com/authorize' +
-  //   '?response_type=code' +
-  //   '&client_id=' + my_client_id +
-  //   (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-  //   '&redirect_uri=' + encodeURIComponent(redirect_uri));
-  // });
 
 
 module.exports = router

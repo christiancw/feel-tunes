@@ -4,8 +4,7 @@ export default function ClearButton (props) {
   const handleClearButton = props.handleClearButton;
 
   return (
-    <div className="clear-button">
-      <div>
+    <div className="col clear-button">
         <form
           onSubmit={handleClearButton}>
           <button
@@ -14,7 +13,6 @@ export default function ClearButton (props) {
             Clear Playlist
           </button>
         </form>
-      </div>
     </div>
   );
 }

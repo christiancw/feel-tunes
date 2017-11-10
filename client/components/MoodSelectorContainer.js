@@ -65,14 +65,12 @@ class MoodSelectorContainer extends Component {
   }
 
   handleSubmit(evt) {
-    // console.log('THE EVENT-->', evt.target)
     evt.preventDefault();
     this.props.newMusic(this.state.moodValue, this.props.genreValues);
     this.setState({
       moodValue: '',
       playlistNameable: true
     });
-    // setTimeout(1500, window.scrollTo(0, 1400));
   }
 
   handleSave(evt) {
@@ -130,6 +128,14 @@ class MoodSelectorContainer extends Component {
               moodValue={this.state.moodValue}
               buttonDisabled={this.state.buttonDisabled}
               />
+            {this.props.fetchingMusic ?
+              <div className="slider-modal-box">
+                <div className="loader-modal-content">
+                  <div className="loader" />
+                </div>
+              </div>
+             : null
+            }
             {this.state.modalOpen ?
               <SlidersModal
                 closeModal={this.closeModal}

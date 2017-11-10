@@ -9,14 +9,15 @@ export default class CurrentMusic extends Component {
     }
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(nextProps) {
+    if (nextProps.currentMusic.length > 0) {
       const scrollElement = document.querySelector('.track-response');
-      console.log('this element', scrollElement);
       scrollElement.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
         inline: 'end'
       });
+    }
   }
 
   render (props){
@@ -26,9 +27,7 @@ export default class CurrentMusic extends Component {
     const fetchingMusic = this.props.fetchingMusic;
     return (
       <div className="track-response">
-        {fetchingMusic ?
-          <div className="loader"/>
-          :
+        {tracks.length > 0 ?
           <div className="row playlist-box">
             {tracks && tracks.map((track) => {
               return (
@@ -41,6 +40,7 @@ export default class CurrentMusic extends Component {
               );
             })}
           </div>
+          : null
         }
       </div>
     );

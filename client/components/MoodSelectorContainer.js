@@ -141,10 +141,21 @@ class MoodSelectorContainer extends Component {
             <ToggleModal
               openModal={this.openModal} />
           </div>
+          {this.props.currentMusic.length !== 0 ?
+            <div className="scroll-down-text">
+              Scroll down for playlist
+              <div className="arrow-down">
+                <a href="#playlists">
+                  <i className="fa fa-angle-double-down fa-2x" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            : null
+          }
           </div>
         <div className="container bottom">
           {this.props.currentMusic.length !== 0 ?
-            <div className="row tracks-console">
+            <div className="row tracks-console" id="playlists">
               {this.state.playlistNameable ?
                   <SaveButton
                     handleSave={this.handleSave}

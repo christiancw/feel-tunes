@@ -25,6 +25,17 @@ html {
       color: inherit;
     }
 
+    .scroll-down-text {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .arrow-down {
+      color: white;
+      font-weight: bolder;
+      display: flex;
+      justify-content: center;
+    }
     #main-nav {
       width: 100%;
       margin: 0px;
@@ -76,7 +87,7 @@ html {
       justify-content: center;
       position: relative;
       height: 500px;
-      background-image: url("StockSnap_9GF1QSWBPE.jpg");
+      background-image: url("StockSnap_DPMX3QCLBT.jpg");
       background-position: top center;
       background-attachment: fixed;
       background-size: 100% 800px;
@@ -127,6 +138,10 @@ html {
       align-items: center;
       height: 8%;
       margin-top: 10px;
+    }
+
+    .down-arrow {
+      color: white;
     }
 
     .tracks-console {

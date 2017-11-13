@@ -1,11 +1,8 @@
 import React from 'react';
 import { Login, Signup } from './Auth';
-// import { connect } from 'react-redux';
-// import { setCurrentGenre } from '../reducer/genre';
 
-export default function AuthModal (props) {
-  const handleClose = props.handleClose;
-  const formType = props.formType;
+const  AuthModal = props => {
+  const { handleClose, formType } = props;
   return (
       <div className="slider-modal-box">
         <div className="modal-content">
@@ -15,8 +12,11 @@ export default function AuthModal (props) {
             >&times;</span>
           {(formType === 'Login') ?
             <Login /> :
-              <Signup />
+            <Signup />
           }
         </div>
       </div>
-    )}
+    );
+  };
+
+export default AuthModal;

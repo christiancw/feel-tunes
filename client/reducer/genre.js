@@ -20,7 +20,7 @@ function addValuesToGenres(genres){
   const valuesObj = {};
   genres.forEach(genre => {
     valuesObj[genre] = 0;
-  })
+  });
   return valuesObj;
 }
 
@@ -30,8 +30,6 @@ const initialGenreValues = {
   selectedGenre: '',
   genreValues: genresWithValues
 };
-
-// const initialGenreValues = Object.assign(genresWithValues, genreSelected);
 
 export default function (state = initialGenreValues, action) {
 

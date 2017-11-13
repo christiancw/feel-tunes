@@ -2,9 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 export default function Playlists (props) {
-  const playlists = props.playlists;
-  console.log('PLAYLISTS', playlists);
-  console.log('type', Array.isArray(playlists))
+  const { playlists } = props;
 
   return (
     <div className="myplaylists container-fluid">

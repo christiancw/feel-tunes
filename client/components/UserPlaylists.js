@@ -12,13 +12,10 @@ class UserPlaylists extends Component {
   }
 
   componentDidMount(){
-    console.log('propsonload', this.props)
-    console.log('STATE', this.state)
-    this.props.findPlaylists(this.props.id)
+    this.props.findPlaylists(this.props.id);
   }
 
   render (){
-    console.log('propsinrender', this.props)
     return (
       <div>
         <div className="user-playlists">

@@ -10,7 +10,6 @@ class SlidersModal extends Component {
   }
 
   render(props) {
-    console.log('props--->', this.props)
     const genres = this.props.genres;
     const onSliderSelect = this.props.onSliderSelect;
     return (

@@ -24,7 +24,6 @@ export const getPlaylists = id => {
 };
 
 export default function (state = initialPlaylistState, action) {
-  console.log('ACTION-->', action.playlists)
 
   const newState = Object.assign({}, state);
 

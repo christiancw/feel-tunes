@@ -3,17 +3,17 @@ const genreParser = (genreObj) => {
   const removeGenres = [];
   for (let key in genreObj){
     if (genreObj[key] >= 50) {
-      addGenres.push(key)
+      addGenres.push(key);
     }
     else if (genreObj[key] !== 0){
-      removeGenres.push(key)
+      removeGenres.push(key);
     }
   }
   return {
     addGenres,
     removeGenres
-  }
-}
+  };
+};
 
 //take the selected genre array, add any genres from the addArray, delete any from the removeArray
 
@@ -63,15 +63,15 @@ function moodMapper(moodObjectArr, attributesArr){
   moodObjectArr.forEach(mood => {
     attributesArr.forEach(attribute => {
       settingsObject[attribute] += moodMultiplier(attribute) * mood.score;
-    })
-  })
+    });
+  });
   return settingsObject;
 }
 
 function deString(objArr){
   const unStrungArr = objArr.map(obj => {
-    return JSON.parse(obj)
-  })
+    return JSON.parse(obj);
+  });
   return unStrungArr;
 }
 

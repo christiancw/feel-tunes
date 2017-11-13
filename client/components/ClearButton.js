@@ -1,15 +1,13 @@
 import React from 'react';
 
 export default function ClearButton (props) {
-  const handleClearButton = props.handleClearButton;
-
+  const { handleClearButton } = props;
   return (
     <div className="col clear-button">
         <form
           onSubmit={handleClearButton}>
           <button
-            type="submit"
-            >
+            type="submit">
             Clear Playlist
           </button>
         </form>

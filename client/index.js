@@ -5,10 +5,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 import store from './store';
-import { Main, Login, Signup, UserHome, Navbar } from './components';
+import { Main } from './components';
 import MoodSelectorContainer from './components/MoodSelectorContainer';
 import UserPlaylists from './components/UserPlaylists';
-import Welcome from './components/Welcome';
 import { me } from './reducer/user';
 
 const whoAmI = store.dispatch(me());

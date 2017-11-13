@@ -1,11 +1,8 @@
 import React from 'react';
 
 export default function SaveButton (props) {
-  const handleSave = props.handleSave;
-  const handlePlayListName = props.handlePlayListName;
-  const playListName = props.playListName;
 
-  console.log('savebutton props-->', props)
+  const { handleSave, handlePlayListName, playListName } = props;
 
   return (
       <form

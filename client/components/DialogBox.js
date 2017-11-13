@@ -1,14 +1,15 @@
 import React from 'react';
 
 export default function DialogBox (props) {
-  const tracksAreSaved = props.tracksAreSaved;
+  const { tracksAreSaved } = props;
 
   return (
     <div className="dialog-box">
       {tracksAreSaved ?
-      <div>
-        Playlist Created!
-      </div> : null}
+      <div className="alert alert-success" role="alert">
+        Playlist created and saved.
+      </div>
+      : null}
     </div>
   );
 }

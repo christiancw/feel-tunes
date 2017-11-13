@@ -1,11 +1,8 @@
 import React from 'react';
-import ToggleModal from './ToggleModal';
 
 export default function MoodSelector (props) {
-  const handleChange = props.handleChange;
-  const handleSubmit = props.handleSubmit;
-  const moodValue = props.moodValue;
-  const buttonDisabled = props.buttonDisabled;
+
+  const { handleChange, handleSubmit, moodValue, buttonDisabled } = props;
 
   return (
     <form

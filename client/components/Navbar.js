@@ -3,10 +3,9 @@ import '../index.scss';
 import { Link } from 'react-router';
 
 export default function Navbar (props) {
-const loggedIn = props.loggedIn;
-const handleClick = props.handleClick;
-const handleLoginButton = props.handleLoginButton;
-const handleSignupButton = props.handleSignupButton;
+
+const { loggedIn, handleClick, handleLoginButton, handleSignupButton } = props;
+
   return (
     <nav className="navbar sticky-top navbar-dark bg-dark" id="main-nav">
       {

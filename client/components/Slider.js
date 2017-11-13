@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setGenre } from '../reducer/genre';
 
-//I need a function, passed as a prop to each slider, that sets the value of the currentGenre to
-//the selected genre on click
-
 class Slider extends Component {
   constructor(props){
-    super(props)
-    console.log('slider props-->', this.props)
+    super(props);
     this.state = {
       currentGenre: props.currentGenre,
       sliderValue: props.sliderValue
@@ -22,11 +18,10 @@ class Slider extends Component {
   }
 
   onSelect(){
-    console.log('CURRENT GENRE--> ', this.state)
-    this.props.selectGenre(this.state.currentGenre)
+    this.props.selectGenre(this.state.currentGenre);
   }
 
-  render(props) {
+  render() {
     return (
       <div id="slidecontainer" onClick={this.onSelect}>
         <input type="range" min="1" max="100" value={this.props.sliderValue} className="slider" id="myRange" onChange={this.onSlide} />
@@ -45,7 +40,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = state => {
-  console.log('mapstate', state)
   const currentGenre = state.genre.currentGenre;
   return {
     sliderValue: state.genre.genreValues[currentGenre]

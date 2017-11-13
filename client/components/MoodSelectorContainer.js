@@ -12,19 +12,18 @@ import { connect } from 'react-redux';
 const mapDispatchToProps = (dispatch) => {
   return {
     newMusic: function (selectedMood, genres) {
-      const action = loadMusic(selectedMood, genres)
+      const action = loadMusic(selectedMood, genres);
       dispatch(action);
     },
     saveMusic: function (tracks, user, name) {
-      console.log(tracks, user);
-      const action = sendTracks(tracks, user, name)
+      const action = sendTracks(tracks, user, name);
       dispatch(action);
     },
     clearMusic: function () {
-      const action = clearTracks()
+      const action = clearTracks();
       dispatch(action);
     }
-  }
+  };
 };
 
 class MoodSelectorContainer extends Component {
@@ -75,8 +74,6 @@ class MoodSelectorContainer extends Component {
 
   handleSave(evt) {
     evt.preventDefault();
-    console.log('props in save -->', this.props)
-    console.log('this is the event--->', evt)
     this.props.saveMusic(this.props.currentMusic, this.props.currentUser, this.state.playlistName);
     this.setState({
       playlistName: '',
@@ -96,7 +93,6 @@ class MoodSelectorContainer extends Component {
     this.setState({
       playlistName: evt.target.value
     });
-    console.log('handling state', this.state.playlistName)
   }
 
   handleClearButton(evt) {
@@ -116,7 +112,7 @@ class MoodSelectorContainer extends Component {
     });
   }
 
-  render (props) {
+  render () {
     return (
       <div className="container-fluid">
         <div className="container-fluid music-selector">

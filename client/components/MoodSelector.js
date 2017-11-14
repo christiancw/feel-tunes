@@ -6,17 +6,19 @@ export default function MoodSelector (props) {
 
   return (
     <form
-      className="row main-form"
+      className="main-form"
       onSubmit={handleSubmit}>
-        <fieldset
-          className="col-12">
+        <fieldset className="container">
           {
             props.buttonDisabled ?
-            <div className="col-12 warning-box">(At least five words, please)</div>
+            <div className="row">
+              <div className="col-12 warning-box">(At least five words, please)</div>
+            </div>
             : null
           }
           <div className="row">
             <input
+              className="col-12"
               placeholder="I feel..."
               onChange={handleChange}
               type="text"

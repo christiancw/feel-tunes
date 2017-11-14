@@ -116,7 +116,7 @@ class MoodSelectorContainer extends Component {
     return (
       <div className="container-fluid">
         <div className="container-fluid music-selector">
-          <div className="form-holder">
+          <div className="form-holder container">
             <div className="form-instructions">Write down some feelings, get music to match!</div>
             <MoodSelector
               handleChange={this.handleChange}

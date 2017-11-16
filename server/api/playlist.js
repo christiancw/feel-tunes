@@ -47,16 +47,12 @@ const attributes = ['energyLevel', 'danceability', 'loudness', 'mode', 'valence'
 router.get('/spotify', (req, res, next) => {
   const feelingArr = deString(req.query.feelingArr);
   const moodMap = moodMapper(feelingArr, attributes);
-
   const energyLevel = String(moodMap.energyLevel);
   const danceability = String(moodMap.danceability);
   const loudness = String(moodMap.loudness);
   const mode = String(Math.floor(moodMap.mode));
   const valence = String(moodMap.valence);
-  // console.log('RECEVIED GENRES--> ', req.query.genres)
   const genreObject = JSON.parse(req.query.genres);
-  // console.log(typeof req.query.genres)
-  // console.log('genreobject-->', JSON.parse(genreObject));
   const parsedGenres = genreParser(genreObject);
   const currentMood = req.query.id;
   const genreLookedup = emotionLookup[currentMood];
@@ -78,7 +74,6 @@ router.get('/spotify', (req, res, next) => {
         json: true
       };
       request.get(options, function(response, body) {
-        // console.log('responsebody ---> ', body);
         res.send(body);
       });
     }
@@ -86,12 +81,10 @@ router.get('/spotify', (req, res, next) => {
 })
 
 router.post('/', (req, res, next) => {
-  // console.log('REQUEST FOR SAVE', req.body.params)
   const tracksList = req.body.params.tracks;
   const idNumber = req.body.params.idNumber;
   const userId = req.body.params.userId || req.body.params.email;
   const refreshToken = req.body.params.refreshToken;
-  // const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
   const stringDate = String(Date.now()).slice(9, 12);
   const defaultName = userId + stringDate;
   const playlistNameGiven = req.body.params.playlistName + stringDate || defaultName;
@@ -108,11 +101,8 @@ router.post('/', (req, res, next) => {
     }
   }
 
-  // console.log('authoptions--->', playlistAuthOptions)
-
   if (req.body.params.userId){
         request.post(playlistAuthOptions, function(error, response, body) {
-          // console.log('will try the request', response.body)
           if (!error && response.statusCode === 200) {
             const createPlaylistURI = `https://api.spotify.com/v1/users/${userId}/playlists`;
             const playlistsToken = body.access_token;
@@ -129,14 +119,11 @@ router.post('/', (req, res, next) => {
               }
             };
             request.post(options, function(createResponse, createBody) {
-              console.log('body--', createBody)
-              console.log('response--', createResponse)
               if (!error){
                 const playListId = createBody.body.id;
                 const addTracksURI = `https://api.spotify.com/v1/users/${userId}/playlists/${playListId}/tracks`
                 options.url = addTracksURI;
                 options.body = {'uris': tracksList};
-                console.log('postTracksOptions', options)
                 request.post(options, function(addResponse, addBody) {
                   res.send(addBody);
                 })
@@ -153,7 +140,6 @@ router.post('/', (req, res, next) => {
       }
 
   else {
-    console.log('REQ BODY', req.body)
     return Playlist.create({
         name: playlistNameGiven,
         dateCreated: Date.now(),
@@ -168,7 +154,6 @@ router.post('/', (req, res, next) => {
   })
 
 router.get('/userplaylist', (req, res, next) => {
-  console.log('reqparams', req.query.id)
   Playlist.findAll({
     where: {
       userId: req.query.id

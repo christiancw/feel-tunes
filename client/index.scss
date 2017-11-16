@@ -8,16 +8,9 @@ html {
         margin: 0;
         font-family: "Helvetica Neue";
 
-  // .flexthis.container:before,
-  // .flexthis.container:after,
-  // .flexthis.row:before,
-  // .flexthis.row:after {
-  //    content: normal; // IE doesn't support `initial`
-  // }
-
   .row:before, .row:after {
-display: flex !important;
-}
+      display: flex !important;
+    }
 
   button {
       font-size: 14px;
